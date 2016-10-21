@@ -1,0 +1,31 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetResourceGroup": {
+      "value": "TST-vNet"
+    },
+    "vnetName": {
+      "value": "TST-vNet"
+    }, 
+
+    "resourcePrefix": {
+      "value": "TST-BUILD"
+    },
+    "subnetName": {
+      "value": "TST-BUILD"
+    },
+    "adminUsername": {
+      "value": "admin123"
+    },
+    "adminPassword": {
+      "value": "Admin123_!"
+    },
+    "vmSize": {
+      "value": "Standard_D3"
+    },
+    "vmCount": {
+      "value": 1
+    }
+  }
+}

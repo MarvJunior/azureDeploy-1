@@ -2,17 +2,27 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageAccountName": {
-      "value": "GEN-UNIQUE"
-    },
+    "vnetName": {
+      "value": "TST-vNet"
+    }, 
+
+    "resourcePrefix": {
+      "value": "TST-ADDS"
+    },  
+    "subnetName": {
+      "value": "TST-ADDS"
+    },    
     "adminUsername": {
       "value": "admin123"
     },
     "adminPassword": {
       "value": "Admin123_!"
     },
-    "dnsNameforLBIP": {
-      "value": "GEN-UNIQUE"
+    "vmSize": {
+      "value": "Standard_A1"
+    },
+    "vmCount": {
+      "value": 2
     }
   }
 }
