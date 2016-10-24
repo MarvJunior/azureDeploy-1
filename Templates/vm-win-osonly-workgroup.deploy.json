@@ -53,6 +53,29 @@
         "description": "Size of the virtual machine, must be available in the virtual machine's location"
       }
     },
+    "dataDisks": {
+      "type": "array",
+      "defaultValue": [
+        {
+          "1": {
+            "name": "datadisk1",
+            "lun": 0,
+            "vhd": {
+              "uri": "[concat('http://', uniqueString(resourceGroup().id),'.blob.core.windows.net/vhds/', 'datadisk1.vhd')]"
+            },
+            "createOption": "Empty",
+            "caching": "ReadWrite",
+            "diskSizeGB": 128
+          }
+        }
+      ]
+    },
+    "dataDiskCount": {
+      "type": "int",
+      "metadata": {
+        "description": "Number of Data Disks to take from array."
+      }
+    },
     "instanceCount": {
       "type": "int",
       "defaultValue": 2,
@@ -67,17 +90,17 @@
         "description": "Storage Account Type for Virtual Machines"
       }
     },
+    "vNetResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of Resource Group containing Virtual Network"
+      }
+    },
     "vnetName": {
       "type": "string",
       "defaultValue": "myVNET",
       "metadata": {
         "description": "vNet name"
-      }
-    },
-    "vnetPrefix": {
-      "type": "string",
-      "metadata": {
-        "description" : "vNet CIDR"
       }
     },
     "subnetName": {
@@ -86,19 +109,34 @@
       "metadata": {
         "description": "The name of the Subnet where Virtual Machines will be created"
       }
-    },
-    "subnetPrefix":{
-      "type": "string",
-      "metadata": {
-        "description": "CIDR for subnet"
-      }
     }
   },
   "variables": {
     "storageAccountName": "[uniqueString(resourceGroup().id)]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('vnetName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]"
-
+    "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
+    "diskArray": [
+      {
+        "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'), parameters('dataDisks')[0].Name)]",
+        "lun": 0,
+        "vhd": {
+          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-datadisk1.vhd')]"
+        },
+        "createOption": "Empty",
+        "caching": "ReadWrite",
+        "diskSizeGB": 100
+      },
+      {
+        "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'), parameters('dataDisks')[0].Name)]",
+        "lun": 1,
+        "vhd": {
+          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-datadisk2.vhd')]"
+        },
+        "createOption": "Empty",
+        "caching": "ReadWrite",
+        "diskSizeGB": 250
+      }
+    ]
   },
   "resources": [
     {
@@ -123,27 +161,6 @@
       },
       "properties": {}
     },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('vnetName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('vnetPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[parameters('subnetName')]",
-            "properties": {
-              "addressPrefix": "[parameters('subnetPrefix')]"
-            }
-          }
-        ]
-      }
-    },
 
     {
       "apiVersion": "2015-05-01-preview",
@@ -155,7 +172,8 @@
         "count": "[parameters('instanceCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"],
+
+        ],
       "properties": {
         "ipConfigurations": [
           {
@@ -210,7 +228,8 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": "[take(variables('diskArray'),parameters('dataDiskCount'))]"
         },
         "networkProfile": {
           "networkInterfaces": [

@@ -1,0 +1,49 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetResourceGroup": {
+      "value": "TST-vNet"
+    },    
+    "vnetName": {
+      "value": "TST-vNet"
+    }, 
+
+    "resourcePrefix": {
+      "value": "TST-Test"
+    },  
+    "subnetName": {
+      "value": "TST-Test"
+    },  
+
+    "adminUsername": {
+      "value": "admin123"
+    },
+    "adminPassword": {
+      "value": "Admin123_!"
+    },
+    "vmSize": {
+      "value": "Standard_A1"
+    },
+    "instanceCount": {
+      "value": 1
+    },
+    "dataDisks": {
+      "value": [
+        {
+          "nameSuffix": "-datadisk1",
+          "sizeInGb": 1023,
+          "caching": "ReadWrite"
+        },
+        {
+          "nameSuffix": "-datadisk2",
+          "sizeInGb": 512,
+          "caching": "ReadWrite"
+        }
+      ]
+    },
+    "dataDiskCount": {
+      "value": 1
+    }
+  }
+}

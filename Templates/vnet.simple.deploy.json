@@ -40,12 +40,9 @@
               "dnsServers": "[parameters('dnsServerAddress')]"
             },
             "subnets": [
-              { "name": "TST-BUILD",
-                "properties": {"addressPrefix": "10.0.0.0/28"}
-              },
-              { "name": "TST-ADDS",
-                "properties": {"addressPrefix": "10.0.0.16/28"}
-              }            
+              { "name": "TST-BUILD", "properties": {"addressPrefix": "10.0.0.0/28"}},
+              { "name": "TST-ADDS",  "properties": {"addressPrefix": "10.0.0.16/28"}},
+              { "name": "TST-Test",  "properties": {"addressPrefix": "10.0.0.32/28"}}        
             ]
           }
         }
