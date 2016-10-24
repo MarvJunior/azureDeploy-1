@@ -53,7 +53,7 @@
         "description": "Size of the virtual machine, must be available in the virtual machine's location"
       }
     },
-    "vmCount": {
+    "instanceCount": {
       "type": "int",
       "defaultValue": 2,
       "metadata": {
@@ -152,7 +152,7 @@
       "location": "[resourceGroup().location]",
       "copy": {
         "name": "nicLoop",
-        "count": "[parameters('vmCount')]"
+        "count": "[parameters('instanceCount')]"
       },
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"],
@@ -176,7 +176,7 @@
       "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
       "copy": {
         "name": "virtualMachineLoop",
-        "count": "[parameters('vmCount')]"
+        "count": "[parameters('instanceCount')]"
       },
       "location": "[resourceGroup().location]",
       "dependsOn": [

@@ -24,7 +24,7 @@
     "vmSize": {
       "value": "Standard_D3"
     },
-    "vmCount": {
+    "instanceCount": {
       "value": 1
     }
   }
