@@ -61,33 +61,6 @@
           }
         ]
       }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('nicName'), '-', copyIndex(1), 2, '0', '-staticIPDeployment')]",
-      "apiVersion": "2015-01-01",
-      "copy": {
-        "name" : "staticLoop",
-        "count" : "[parameters('instanceCount')]"
-      },      
-      "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
-            "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "subnetRef": {"value": "[parameters('subnetRef')]"},
-          "nicName": {"value": "[concat(parameters('nicName'), '-', copyIndex(1), 2, '0')]"},              
-          "location": {"value": "[resourceGroup().location]"},
-          "ipAddress" : {
-            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"
-            }              
-        }
-      }
     }
   ]
 }
