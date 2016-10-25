@@ -1,0 +1,60 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourcePrefix": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {"description": "Prefix to use for resource names"}
+    },
+    "instanceCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "metadata": {"description": "Number of Virtual Machines to create"}
+    },
+    "subnetRef": {
+      "type": "string",
+      "defaultValue": "SubnetDefault",
+      "metadata": {"description": "A reference to an existing subnet"}
+    },
+    "location": {
+      "type": "string",
+      "metadata": {"description": "A reference to a resource location"
+      }
+    },
+    "staticIpAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Static IP Address for Network Interface"
+      } 
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('instanceCount')]"
+      },
+      "dependsOn": [],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('staticIpAddress')]",
+              "subnet": {
+                "id": "[parameters('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
