@@ -81,7 +81,7 @@
         },
         "parameters": {
           "subnetRef": {"value": "[parameters('subnetRef')]"},
-          "nicName": {"value": "[concat(parameters('nicName'))]"},              
+          "nicName": {"value": "[concat(parameters('nicName'), '-', copyIndex(1), 2, '0')]"},              
           "location": {"value": "[resourceGroup().location]"},
           "ipAddress" : {
             "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"
