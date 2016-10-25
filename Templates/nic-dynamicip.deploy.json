@@ -29,9 +29,7 @@
       }
     }
   },
-  "variables": {
-
-  },
+  "variables": {},
   "resources": [
     {
       "apiVersion": "2015-05-01-preview",
@@ -42,9 +40,7 @@
         "name" : "nicLoop",
         "count" : "[parameters('instanceCount')]"
       },
-      "dependsOn": [
-
-        ],
+      "dependsOn": [],
       "properties": {
         "ipConfigurations": [
           {
