@@ -133,7 +133,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
+            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-static.json')]",
             "contentVersion": "1.0.0.0"
         },
         "parameters": {
