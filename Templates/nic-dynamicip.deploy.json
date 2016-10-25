@@ -71,7 +71,7 @@
         "count" : "[parameters('instanceCount')]"
       },      
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), padleft(copyindex(1), 2, '0'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -84,7 +84,7 @@
           "nicName": {"value": "[concat(parameters('nicName'))]"},              
           "location": {"value": "[resourceGroup().location]"},
           "ipAddress" : {
-            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"
+            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"
             }              
         }
       }
