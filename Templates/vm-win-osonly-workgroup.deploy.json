@@ -2,6 +2,13 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "nestedTemplateUri" : {
+      "type": "string",
+      "minLength": 14,
+      "metadata": {
+        "description" : "The URI hosting nested templates, for linked deployments"
+      }
+    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -89,15 +96,16 @@
     }
   },
   "variables": {
-    "storageAccountName": "[uniqueString(resourceGroup().id)]",
+    "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "vhdStoragePath" : "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]"
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
+    "nicName" : "[parameters('resourcePrefix')]"
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
+      "name": "[concat(variables('storageAccountName'),'-SA')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags":{
@@ -109,7 +117,7 @@
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[parameters('resourcePrefix')]",
+      "name": "[concat(parameters('resourcePrefix'),'-AS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags":{
@@ -117,37 +125,30 @@
       },
       "properties": {}
     },
-
     {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
-      "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "nicLoop",
-        "count": "[parameters('instanceCount')]"
-      },
-      "dependsOn": [
-
-        ],
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(parameters('resourcePrefix'),'-staticNetworkInterfaces')]",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [],
       "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('subnetRef')]"
-              }
-            }
-          }
-        ]
+        "mode": "Incremental",
+        "templateLink": {
+            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
+            "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "nestedTemplateUri" : {"value":"[parameters('nestedTemplateUri')]"},
+          "subnetRef": {"value": "[variables('subnetRef')]"},
+          "nicName": {"value": "[concat(variables('nicName'))]"},
+          "instanceCount" : {"value": "[parameters('instanceCount')]"},
+          "location": {"value": "[resourceGroup().location]"}
+        }
       }
-    },    
+    },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
+      "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-VM')]",
       "copy": {
         "name": "virtualMachineLoop",
         "count": "[parameters('instanceCount')]"
@@ -155,8 +156,8 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('resourcePrefix'), '-',padLeft(copyindex(1), 2, '0'))]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]"
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]",
+        "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-networkInterfaces')]" 
       ],
       "properties": {
         "availabilitySet": {

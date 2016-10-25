@@ -1,23 +1,32 @@
 {
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {
+  "parameters": {   
     "nicName": {
       "type": "string",
-      "metadata": {"description": "Name of Network Interface"}
-    },   
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of Network Interface"
+      }
+    },
+    "instanceCount": {
+      "type" : "int",
+      "metadata": {
+        "description" : "Number of Nics to create"
+      }
+    },
     "subnetRef": {
       "type": "string",
       "defaultValue": "SubnetDefault",
-      "metadata": {"description": "A reference to an existing subnet"}
+      "metadata": {
+        "description": "A reference to an existing subnet"
+      }
     },
     "location": {
       "type": "string",
-      "metadata": {"description": "A reference to a resource location"}
-    },
-    "ipAddress": {
-      "type": "string", 
-      "metadata": {"description": "Single IP address for NIC"}
+      "metadata": {
+        "description": "A reference to a resource location"
+      }
     }
   },
   "variables": {},
@@ -25,16 +34,19 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('nicName')]",
+      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]",
       "location": "[parameters('location')]",
-      "dependsOn": [],           
+      "copy": {
+        "name" : "nicLoop",
+        "count" : "[parameters('instanceCount')]"
+      },
+      "dependsOn": [],
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[parameters('ipAddress')]",
+              "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[parameters('subnetRef')]"
               }

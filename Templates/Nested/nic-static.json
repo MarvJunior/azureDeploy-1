@@ -41,7 +41,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'))]",
+      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]",
       "location": "[parameters('location')]",
       "copy": {
         "name" : "nicLoop",
@@ -71,7 +71,7 @@
         "count" : "[parameters('instanceCount')]"
       },      
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -81,10 +81,10 @@
         },
         "parameters": {
           "subnetRef": {"value": "[parameters('subnetRef')]"},
-          "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'))]"},              
+          "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]"},              
           "location": {"value": "[resourceGroup().location]"},
           "ipAddress" : {
-            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"
+            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
             }              
         }
       }

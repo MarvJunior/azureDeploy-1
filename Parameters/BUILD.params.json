@@ -2,12 +2,16 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "nestedTemplateUri": {
+      "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested"
+    },
     "vNetResourceGroup": {
       "value": "TST-vNet"
-    },
+    },    
     "vnetName": {
       "value": "TST-vNet"
     }, 
+
 
     "resourcePrefix": {
       "value": "TST-BUILD"

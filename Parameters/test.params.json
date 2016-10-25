@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "nestedTemplateUri": {
-      "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/"
+      "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested"
     },
     "vNetResourceGroup": {
       "value": "TST-vNet"
@@ -11,13 +11,14 @@
     "vnetName": {
       "value": "TST-vNet"
     }, 
+
+    
     "resourcePrefix": {
       "value": "TST-Test"
     },  
     "subnetName": {
       "value": "TST-Test"
-    },  
-
+    },
     "adminUsername": {
       "value": "admin123"
     },
