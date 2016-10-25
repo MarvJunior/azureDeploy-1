@@ -126,23 +126,24 @@
       "properties": {}
     },
     {
-        "type": "Microsoft.Resources/deployments",
-        "name": "[concat(parameters('resourcePrefix'),'-networkInterfaces')]",
-        "apiVersion": "2015-01-01",
-        "dependsOn": [],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-dynamicip.deploy.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
-                "subnetRef": {"value": "[variables('subnetRef')]"},
-                "nicName": {"value": "[concat(variables('nicName'))]"},
-                "instanceCount" : {"value": "[parameters('instanceCount')]"},
-                "location": {"value": "[resourceGroup().location]"}
-            }
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(parameters('resourcePrefix'),'-networkInterfaces')]",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-dynamicip.deploy.json')]",
+            "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "nestedTemplateUri" : {"value":"[parameters('nestedTemplateUri')]"},
+          "subnetRef": {"value": "[variables('subnetRef')]"},
+          "nicName": {"value": "[concat(variables('nicName'))]"},
+          "instanceCount" : {"value": "[parameters('instanceCount')]"},
+          "location": {"value": "[resourceGroup().location]"}
         }
+      }
     },
 
     {
