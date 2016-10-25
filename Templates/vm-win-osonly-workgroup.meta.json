@@ -125,11 +125,10 @@
       "properties": {}
     },
     {
-        "name": "NetworkInterface",
+        "name": "DynamicNetworkInterface",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
-        "dependsOn": [
-        ],
+        "dependsOn": [],
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -137,18 +136,10 @@
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
-                "subnetRef": {
-                    "value": "[variables('subnetRef')]"
-                },
-                "instanceCount": {
-                    "value": "[parameters('instanceCount')]"
-                },
-                "resourcePrefix": {
-                    "value": "[parameters('resourcePrefix')]"
-                },
-                "location": {
-                    "value": "[resourceGroup().location]"
-                }
+                "subnetRef": {"value": "[variables('subnetRef')]"},
+                "instanceCount": {"value": "[parameters('instanceCount')]"},
+                "resourcePrefix": {"value": "[parameters('resourcePrefix')]"},
+                "location": {"value": "[resourceGroup().location]"}
             }
         }
     },
@@ -164,7 +155,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Resources/deployments/','networkInterface')]",
+        "[concat('Microsoft.Resources/deployments/','dynamicNetworkInterface')]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]"
       ],
       "properties": {
