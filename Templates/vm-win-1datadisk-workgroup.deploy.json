@@ -67,6 +67,12 @@
         "description": "Storage Account Type for Virtual Machines"
       }
     },
+    "dataDisks" : {
+      "type": "array",
+      "metadata": {
+        "description": "Array containing Data Disk information"
+      }
+    },
     "vNetResourceGroup": {
       "type": "string",
       "metadata": {
@@ -185,7 +191,18 @@
             "caching": "ReadWrite",
             "createOption": "FromImage"
           },
-          "dataDisks": []
+          "dataDisks": [
+            {
+              "name": "[parameters('dataDisks')[0].name]",
+              "lun": "[int(parameters('dataDisks')[0].lun)]",
+              "caching": "[parameters('dataDisks')[0].caching]",
+              "createOption": "[parameters('dataDisks')[0].createOption]",
+              "diskSizeGB": "[parameters('dataDisks')[0].diskSizeGB]",
+              "vhd": {
+                "uri": "[concat(variables('vhdStoragePath'),parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-', parameters('dataDisks')[0].name ,'.vhd')]"
+              }
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [

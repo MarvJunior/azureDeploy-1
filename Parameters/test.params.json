@@ -31,19 +31,20 @@
     "dataDisks": {
       "value": [
         {
-          "nameSuffix": "-datadisk1",
-          "sizeInGb": 1023,
-          "caching": "ReadWrite"
+          "name": "disk1",
+          "lun": 0,
+          "createOption": "Empty",
+          "caching": "ReadWrite",
+          "diskSizeGB": 100
         },
         {
-          "nameSuffix": "-datadisk2",
-          "sizeInGb": 512,
-          "caching": "ReadWrite"
+          "name": "disk2",
+          "lun": 1,
+          "createOption": "Empty",
+          "caching": "ReadWrite",
+          "diskSizeGB": 250
         }
       ]
-    },
-    "dataDiskCount": {
-      "value": 1
     }
   }
 }
