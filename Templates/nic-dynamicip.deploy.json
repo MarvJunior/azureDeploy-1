@@ -64,7 +64,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat('Deployment-StaticNic')]",
+      "name": "[concat(parameters('nicName'), '-', copyIndex(1), 2, '0', '-staticIPDeployment')]",
       "apiVersion": "2015-01-01",
       "copy": {
         "name" : "staticLoop",
