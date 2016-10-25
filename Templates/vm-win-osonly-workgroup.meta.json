@@ -127,7 +127,7 @@
     },
     {
         "type": "Microsoft.Resources/deployments",
-        "name": "[concat('Deployment-DynamicNic')]",
+        "name": "[concat(parameters('resourcePrefix'),'-networkInterfaces')]",
         "apiVersion": "2015-01-01",
         "dependsOn": [],
         "properties": {
@@ -144,27 +144,7 @@
             }
         }
     },
-    {
-        "type": "Microsoft.Resources/deployments",
-        "name": "[concat('Deployment-StaticNic')]",
-        "apiVersion": "2015-01-01",
-        "dependsOn": [
-          "[concat('Microsoft.Resources/deployments/','Deployment-DynamicNic')]" 
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
-                "subnetRef": {"value": "[variables('subnetRef')]"},
-                "nicName": {"value": "[concat(variables('nicName'))]"},
-                "instanceCount" : {"value": "[parameters('instanceCount')]"},                
-                "location": {"value": "[resourceGroup().location]"}
-            }
-        }
-    },
+
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
@@ -177,7 +157,7 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]",
-        "[concat('Microsoft.Resources/deployments/','Deployment-StaticNic')]" 
+        "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-networkInterfaces')]" 
       ],
       "properties": {
         "availabilitySet": {

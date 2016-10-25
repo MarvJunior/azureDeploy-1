@@ -2,6 +2,13 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "nestedTemplateUri" : {
+      "type": "string",
+      "minLength": 14,
+      "metadata": {
+        "description" : "The URI hosting nested templates, for linked deployments"
+      }
+    },    
     "nicName": {
       "type": "string",
       "defaultValue": "",
@@ -53,6 +60,33 @@
             }
           }
         ]
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat('Deployment-StaticNic')]",
+      "apiVersion": "2015-01-01",
+      "copy": {
+        "name" : "staticLoop",
+        "count" : "[parameters('instanceCount')]"
+      },      
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), padleft(copyindex(1), 2, '0'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
+            "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "subnetRef": {"value": "[parameters('subnetRef')]"},
+          "nicName": {"value": "[concat(parameters('nicName'))]"},              
+          "location": {"value": "[resourceGroup().location]"},
+          "ipAddress" : {
+            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"
+            }              
+        }
       }
     }
   ]
