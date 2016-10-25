@@ -41,7 +41,7 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[reference(concat(parameters('nicName'),'-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]",
+              "privateIPAddress": "[reference(concat(parameters('nicName'),'-', padleft(copyindex(1), 2, '0')),'2015-05-01-preview').ipConfigurations[0].properties.privateIPAddress]",
               "subnet": {
                 "id": "[parameters('subnetRef')]"
               }
