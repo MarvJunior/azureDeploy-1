@@ -99,7 +99,8 @@
     "storageAccountName": "[uniqueString(resourceGroup().id)]",
     "vhdStoragePath" : "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]"
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
+    "nicName" : "[parameters('resourcePrefix')]"
   },
   "resources": [
     {
@@ -129,6 +130,10 @@
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
         "dependsOn": [],
+        "copy": {
+          "name" : "dynamicNicLoop",
+          "count" : "[parameters('instanceCount')]"
+        },
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -137,13 +142,40 @@
             },
             "parameters": {
                 "subnetRef": {"value": "[variables('subnetRef')]"},
-                "instanceCount": {"value": "[parameters('instanceCount')]"},
-                "resourcePrefix": {"value": "[parameters('resourcePrefix')]"},
+                "nicName": {"value": "[concat(variables('nicName'), '-', padleft(parameters('instanceCount'), 2, '0'))]"},
                 "location": {"value": "[resourceGroup().location]"}
             }
         }
     },
-   
+    {
+        "name": "StaticNetworkInterface",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "[concat('Microsoft.Resources/deployments/','dynamicNetworkInterface')]" 
+        ],
+        "copy": {
+          "name" : "staticNicLoop",
+          "count" : "[parameters('instanceCount')]"
+        },
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "subnetRef": {"value": "[variables('subnetRef')]"},
+                "nicName": {"value": "[concat(variables('nicName'), '-', padleft(parameters('instanceCount'), 2, '0'))]"},
+                "staticIpAddress": {"value": "[reference(concat(variables('nicName'),'-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"},                
+                "location": {"value": "[resourceGroup().location]"}
+
+            }
+        }
+    },
+
+
+
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
@@ -155,7 +187,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Resources/deployments/','dynamicNetworkInterface')]",
+        "[concat('Microsoft.Resources/deployments/','staticNetworkInterface')]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]"
       ],
       "properties": {
