@@ -28,7 +28,25 @@
       "value": "Standard_A1"
     },
     "instanceCount": {
-      "value": 2
+      "value": 1
+    },
+    "dataDisks": {
+      "value": [
+        {
+          "name": "disk1",
+          "lun": 0,
+          "createOption": "Empty",
+          "caching": "ReadWrite",
+          "diskSizeGB": 100
+        },
+        {
+          "name": "disk2",
+          "lun": 1,
+          "createOption": "Empty",
+          "caching": "ReadWrite",
+          "diskSizeGB": 250
+        }
+      ]
     }
   }
 }

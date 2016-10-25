@@ -16,37 +16,29 @@
         "description": "Number of Virtual Machines to create"
       }
     },
-    "vNetResourceGroup": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of Resource Group containing Virtual Network"
-      }
-    },
-    "vnetName": {
-      "type": "string",
-      "defaultValue": "myVNET",
-      "metadata": {
-        "description": "vNet name"
-      }
-    },
-    "subnetName": {
+    "subnetRef": {
       "type": "string",
       "defaultValue": "SubnetDefault",
       "metadata": {
-        "description": "The name of the Subnet where Virtual Machines will be created"
+        "description": "A reference to an existing subnet"
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "A reference to a resource location"
       }
     }
   },
   "variables": {
-    "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]"
+
   },
   "resources": [
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "copy": {
         "name": "nicLoop",
         "count": "[parameters('instanceCount')]"
@@ -61,7 +53,7 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[parameters('subnetRef')]"
               }
             }
           }
