@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "nestedTemplateUri": {
-      "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested"
+      "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested/"
     },
     "vNetResourceGroup": {
       "value": "TST-vNet"

@@ -145,7 +145,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-staticip.deploy.json')]",
+                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-static.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -167,9 +167,9 @@
         },
         "location": "[resourceGroup().location]",
         "dependsOn": [
-            "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-            "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]",
-            "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-networkInterfaces')]" 
+            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StorageAccount')]", 
+            "[concat('Microsoft.Resources/deployments/',variables('availabilitySetName'),'-AvailabilitySet')]", 
+            "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]" 
         ],
         "properties": {
             "availabilitySet": {
