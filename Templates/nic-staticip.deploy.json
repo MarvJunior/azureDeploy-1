@@ -2,15 +2,9 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "resourcePrefix": {
+    "nicName": {
       "type": "string",
-      "defaultValue": "",
-      "metadata": {"description": "Prefix to use for resource names"}
-    },
-    "instanceCount": {
-      "type": "int",
-      "defaultValue": 2,
-      "metadata": {"description": "Number of Virtual Machines to create"}
+      "metadata": {"description": "Name of Network Interface"}
     },
     "subnetRef": {
       "type": "string",
@@ -34,12 +28,8 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
+      "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
-      "copy": {
-        "name": "nicLoop",
-        "count": "[parameters('instanceCount')]"
-      },
       "dependsOn": [],
       "properties": {
         "ipConfigurations": [
