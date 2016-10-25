@@ -6,6 +6,12 @@
       "type": "string",
       "metadata": {"description": "Name of Network Interface"}
     },
+    "instanceCount": {
+      "type" : "int",
+      "metadata": {
+        "description" : "Number of Nics to create"
+      }
+    },    
     "subnetRef": {
       "type": "string",
       "defaultValue": "SubnetDefault",
@@ -15,12 +21,6 @@
       "type": "string",
       "metadata": {"description": "A reference to a resource location"
       }
-    },
-    "staticIpAddress": {
-      "type": "string",
-      "metadata": {
-        "description": "Static IP Address for Network Interface"
-      } 
     }
   },
   "variables": {},
@@ -30,14 +30,18 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
-      "dependsOn": [],
+      "copy": {
+        "name" : "nicLoop",
+        "count" : "[parameters('instanceCount')]"
+      }, 
+      "dependsOn": [],           
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[parameters('staticIpAddress')]",
+              "privateIPAddress": "[reference(concat(parameters('nicName'),'-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]",
               "subnet": {
                 "id": "[parameters('subnetRef')]"
               }

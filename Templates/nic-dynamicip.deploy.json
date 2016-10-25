@@ -9,6 +9,12 @@
         "description": "Name of Network Interface"
       }
     },
+    "instanceCount": {
+      "type" : "int",
+      "metadata": {
+        "description" : "Number of Nics to create"
+      }
+    },
     "subnetRef": {
       "type": "string",
       "defaultValue": "SubnetDefault",
@@ -32,6 +38,10 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[parameters('nicName')]",
       "location": "[parameters('location')]",
+      "copy": {
+        "name" : "nicLoop",
+        "count" : "[parameters('instanceCount')]"
+      },
       "dependsOn": [
 
         ],

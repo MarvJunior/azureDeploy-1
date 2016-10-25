@@ -126,14 +126,10 @@
       "properties": {}
     },
     {
-        "name": "DynamicNetworkInterface",
         "type": "Microsoft.Resources/deployments",
+        "name": "[concat('Deployment-DynamicNic')]",
         "apiVersion": "2015-01-01",
         "dependsOn": [],
-        "copy": {
-          "name" : "dynamicNicLoop",
-          "count" : "[parameters('instanceCount')]"
-        },
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -142,22 +138,19 @@
             },
             "parameters": {
                 "subnetRef": {"value": "[variables('subnetRef')]"},
-                "nicName": {"value": "[concat(variables('nicName'), '-', padleft(parameters('instanceCount'), 2, '0'))]"},
+                "nicName": {"value": "[concat(variables('nicName'))]"},
+                "instanceCount" : {"value": "[parameters('instanceCount')]"},
                 "location": {"value": "[resourceGroup().location]"}
             }
         }
     },
     {
-        "name": "StaticNetworkInterface",
         "type": "Microsoft.Resources/deployments",
+        "name": "[concat('Deployment-StaticNic')]",
         "apiVersion": "2015-01-01",
         "dependsOn": [
-          "[concat('Microsoft.Resources/deployments/','dynamicNetworkInterface')]" 
+          "[concat('Microsoft.Resources/deployments/','Deployment-DynamicNic')]" 
         ],
-        "copy": {
-          "name" : "staticNicLoop",
-          "count" : "[parameters('instanceCount')]"
-        },
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -166,10 +159,9 @@
             },
             "parameters": {
                 "subnetRef": {"value": "[variables('subnetRef')]"},
-                "nicName": {"value": "[concat(variables('nicName'), '-', padleft(parameters('instanceCount'), 2, '0'))]"},
-                "staticIpAddress": {"value": "[reference(concat(variables('nicName'),'-', padleft(copyindex(1), 2, '0'))).ipConfigurations[0].properties.privateIPAddress]"},                
+                "nicName": {"value": "[concat(variables('nicName'))]"},
+                "instanceCount" : {"value": "[parameters('instanceCount')]"},                
                 "location": {"value": "[resourceGroup().location]"}
-
             }
         }
     },
@@ -187,8 +179,8 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Resources/deployments/','staticNetworkInterface')]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]"
+        "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]",
+        "[resourceId(resourceGroup(),'Microsoft.Network/networkInterfaces/', concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0')))]"
       ],
       "properties": {
         "availabilitySet": {
