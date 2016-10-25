@@ -180,7 +180,7 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]",
-        "[resourceId(resourceGroup(),'Microsoft.Network/networkInterfaces/', concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0')))]"
+        "[concat('Microsoft.Resources/deployments/','Deployment-StaticNic')]" 
       ],
       "properties": {
         "availabilitySet": {
