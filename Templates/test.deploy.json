@@ -117,7 +117,8 @@
             "parameters": {
                 "storageAccountType": {"value":"[parameters('storageAccountType')]"},
                 "storageAccountName": {"value":"[variables('storageAccountName')]"},
-                "resourceGroupLocation": {"value":"[resourceGroup().location]"}
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
             }
         }
     },
@@ -133,7 +134,8 @@
             },
             "parameters": {
                 "availabilitySetName": {"value": "[variables('availabilitySetName')]"},
-                "resourceGroupLocation": {"value": "[resourceGroup().location]"}
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"}   
             }
         }
     },
@@ -153,6 +155,7 @@
             "subnetRef": {"value": "[variables('subnetRef')]"},
             "nicName": {"value": "[concat(variables('nicName'))]"},
             "instanceCount" : {"value": "[parameters('instanceCount')]"},
+            "resourceGroupName": {"value":"[resourceGroup().name]"},
             "resourceGroupLocation": {"value": "[resourceGroup().location]"}
             }
         }

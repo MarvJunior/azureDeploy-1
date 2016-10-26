@@ -86,7 +86,7 @@
         "parameters": {
           "subnetRef": {"value": "[parameters('subnetRef')]"},
           "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]"},              
-          "location": {"value": "[parameters('resourceGroupLocation')]"},
+          "resourceGroupLocation": {"value": "[parameters('resourceGroupLocation')]"},
           "ipAddress" : {
             "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
             }              
