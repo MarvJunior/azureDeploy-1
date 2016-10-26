@@ -1,0 +1,127 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceGroupName": {
+            "type": "string", 
+            "metadata": {"description": "Name of parent Resource Group"}
+        },
+        "resourceGroupLocation": {
+            "type": "string",
+            "metadata": {"description": "Location of parent Resource Group"}
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {"description": "Admin username"}
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {"description": "Admin password"}
+        },
+        "imagePublisher": {
+            "type": "string",
+            "defaultValue": "MicrosoftWindowsServer",
+            "metadata": {"description": "Image Publisher"}
+        },
+        "imageOffer": {
+            "type": "string",
+            "defaultValue": "WindowsServer",
+            "metadata": {"description": "Image Offer"}
+        },
+        "imageSKU": {
+            "type": "string",
+            "defaultValue": "2012-R2-Datacenter",
+            "allowedValues": [
+                "2012-R2-Datacenter"
+            ],
+            "metadata": {"description": "Image SKU"}
+        },
+        "vmSize": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Standard_A1",
+            "metadata": {"description": "Size of the virtual machine, must be available in the virtual machine's location"}
+        },
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {"description": "Name of Storage Account for Virtual Machine disks"}
+        },
+        "vmName": {
+            "type": "string", 
+            "metadata": {"description": "Name of Virtual Machine Resource"}
+        },
+        "osName": {
+            "type": "string", 
+            "metadata": {"description": "Hostname for Operating System"}
+        }, 
+        "availabilitySetName": {
+            "type": "string", 
+            "metadata": {"description": "Name of Availablity Set"}
+        }, 
+        "nicName" : {
+            "type": "string", 
+            "metadata": {"description": "Name of Network Interface for Virtual Machine"}
+        }
+    },
+    "variables": {
+        "vhdStoragePath" : "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('vmName')]",
+            "location": "[parameters('resourceGroupLocation')]",
+            "dependsOn": [],
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId(parameters('resourceGroupName'),'Microsoft.Compute/availabilitySets',parameters('availabilitySetName'))]"
+                },
+                "hardwareProfile": {
+                "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('osName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                "imageReference": {
+                    "publisher": "[parameters('imagePublisher')]",
+                    "offer": "[parameters('imageOffer')]",
+                    "sku": "[parameters('imageSKU')]",
+                    "version": "latest"
+                },
+                "osDisk": {
+                    "name": "osdisk",
+                    "vhd": {
+                        "uri": "[concat(variables('vhdStoragePath'),parameters('vmName'), '-osdisk.vhd')]"
+                    },
+                    "caching": "ReadWrite",
+                    "createOption": "FromImage"
+                },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                "networkInterfaces": [
+                        {
+                        "id": "[resourceId(parameters('resourceGroupName'),'Microsoft.Network/networkInterfaces',parameters('nicName'))]"
+                        }
+                    ]
+                },
+                    "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": "true",
+                        "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "vmRef": {
+            "type": "object",
+            "value": "[reference(parameters('vmName'))]"
+        }
+    }
+}
