@@ -126,7 +126,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'storageAccount.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'storageAccount.deploy.json')]",
                 "contentVersion": "1.0.0.0"            
             },
             "parameters": {
@@ -144,7 +144,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'availabilitySet.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'availabilitySet.deploy.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -162,7 +162,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'nic-static.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'nic-static.deploy.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -191,7 +191,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'vm-dynamicdatadisks.test.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'vm-dynamicdatadisks.test.deploy.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parametersLink": {
