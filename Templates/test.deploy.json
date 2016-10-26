@@ -101,7 +101,8 @@
     "vhdStoragePath" : "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
-    "nicName" : "[parameters('resourcePrefix')]"
+    "nicName" : "[parameters('resourcePrefix')]",
+    "vmName": "[parameters('resourcePrefix')]"
   },
   "resources": [
     {
@@ -158,60 +159,38 @@
         }
     },
     {
-        "apiVersion": "2015-06-15",
-        "type": "Microsoft.Compute/virtualMachines",
-        "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-VM')]",
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(parameters('resourcePrefix'),'-virtualMachines')]",
+        "apiVersion": "2015-01-01",
         "copy": {
-            "name": "virtualMachineLoop",
+            "name": "vmCopy",
             "count": "[parameters('instanceCount')]"
         },
-        "location": "[resourceGroup().location]",
         "dependsOn": [
             "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StorageAccount')]", 
             "[concat('Microsoft.Resources/deployments/',variables('availabilitySetName'),'-AvailabilitySet')]", 
-            "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]" 
+            "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]"             
         ],
         "properties": {
-            "availabilitySet": {
-            "id": "[resourceId('Microsoft.Compute/availabilitySets',parameters('resourcePrefix'))]"
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('nestedTemplateUri'), 'vm-dynamicdatadisks.json')]",
+                "contentVersion": "1.0.0.0"
             },
-            "hardwareProfile": {
-            "vmSize": "[parameters('vmSize')]"
-            },
-            "osProfile": {
-            "computerName": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
-            "adminUsername": "[parameters('adminUsername')]",
-            "adminPassword": "[parameters('adminPassword')]"
-            },
-            "storageProfile": {
-            "imageReference": {
-                "publisher": "[parameters('imagePublisher')]",
-                "offer": "[parameters('imageOffer')]",
-                "sku": "[parameters('imageSKU')]",
-                "version": "latest"
-            },
-            "osDisk": {
-                "name": "osdisk",
-                "vhd": {
-                "uri": "[concat(variables('vhdStoragePath'),parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-osdisk.vhd')]"
-                },
-                "caching": "ReadWrite",
-                "createOption": "FromImage"
-            },
-            "dataDisks": []
-            },
-            "networkProfile": {
-            "networkInterfaces": [
-                {
-                "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0')))]"
-                }
-            ]
-            },
-            "diagnosticsProfile": {
-            "bootDiagnostics": {
-                "enabled": "true",
-                "storageUri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net')]"
-            }
+            "parameters": {
+                "resourceGroupName": {"value": "[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"},
+                "adminUsername": {"value": "[parameters('adminUsername')]"},
+                "adminPassword": {"value": "[parameters('adminPassword')]"},
+                "imagePublisher": {"value": "[parameters('imagePublisher')]"},
+                "imageOffier": {"value": "[parameters('imageOffer')]"},
+                "imageSKU": {"value": "[parameters('imageSKU')]"},
+                "vmSize": {"value": "[parameters('vmSize')]"},
+                "storageAccountName": {"value": "[variables('storageAccountName')]"},
+                "vmName": {"value": "[concat(variables('vmName'),'-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
+                "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},
+                "availabilitySetName": {"value": "[variables('availabilitySetName')]"},
+                "nicName": {"value": "[concat(variables('nicName'))]"}      
             }
         }
     }
