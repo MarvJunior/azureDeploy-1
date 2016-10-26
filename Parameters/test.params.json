@@ -2,8 +2,11 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "nestedTemplateUri": {
-            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested/"
+        "resourceTemplateUri": {
+            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Resources/"
+        },
+        "parameterFilesUri": {
+            "value": "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Parameters/"
         },
         "vNetResourceGroup": {
             "value": "TST-vNet"
@@ -28,24 +31,6 @@
         },
         "instanceCount": {
             "value": 2
-        },
-        "dataDiskProperties": {
-            "value": {
-                "dataDisk1": {
-                    "lun": 0,
-                    "vhdSuffix": "-datadisk1.vhd",
-                    "createOption": "empty",
-                    "caching": "ReadWrite",
-                    "diskSizeGB": 256
-                },
-                "dataDisk2": {
-                    "lun": 1,
-                    "vhdSuffix": "-datadisk2.vhd",
-                    "createOption": "empty",
-                    "caching": "ReadWrite",
-                    "diskSizeGB": 1023
-                }            
-            }
         },
         "dataDiskCount": {
             "value": 2

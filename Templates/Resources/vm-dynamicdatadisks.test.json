@@ -62,15 +62,80 @@
             "type": "string", 
             "metadata": {"description": "Name of Network Interface for Virtual Machine"}
         },
-        "dataDiskProperties": {
-            "type": "object",
-            "metadata": {"description": "Object containing Data Disk properties"}
-        },
         "dataDiskCount": {
             "type": "int",
             "defaultValue": 0,
             "metadata": {"description": "Number of Data Disks to add to VM - taken from DataDiskArray variable"}
-        }
+        },
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {},
+
+        "dataDisk1_name": {},
+        "dataDisk1_uriSuffix": {},
+        "dataDisk1_lun": {},
+        "dataDisk1_createOption": {},
+        "dataDisk1_caching": {},
+        "dataDisk1_diskSizeGB": {}
     },
     "variables": {
         "vhdStoragePath" : "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]",

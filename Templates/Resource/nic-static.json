@@ -12,7 +12,7 @@
         "description": "A reference to a resource location"
       }
     },
-    "nestedTemplateUri" : {
+    "resourceTemplateUri" : {
       "type": "string",
       "minLength": 14,
       "metadata": {
@@ -80,7 +80,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-            "uri": "[concat(parameters('nestedTemplateUri'), 'set-staticnic.json')]",
+            "uri": "[concat(parameters('resourceTemplateUri'), 'set-staticnic.json')]",
             "contentVersion": "1.0.0.0"
         },
         "parameters": {

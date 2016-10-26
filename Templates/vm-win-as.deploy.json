@@ -2,7 +2,7 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "nestedTemplateUri" : {
+    "resourceTemplateUri" : {
       "type": "string",
       "minLength": 14,
       "metadata": {
@@ -111,7 +111,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'storageAccount.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'storageAccount.json')]",
                 "contentVersion": "1.0.0.0"            
             },
             "parameters": {
@@ -129,7 +129,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'availabilitySet.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'availabilitySet.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -147,11 +147,11 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-static.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'nic-static.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
-            "nestedTemplateUri" : {"value":"[parameters('nestedTemplateUri')]"},
+            "resourceTemplateUri" : {"value":"[parameters('resourceTemplateUri')]"},
             "subnetRef": {"value": "[variables('subnetRef')]"},
             "nicName": {"value": "[concat(variables('nicName'))]"},
             "instanceCount" : {"value": "[parameters('instanceCount')]"},
@@ -176,7 +176,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'vm-dynamicdatadisks.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'vm-dynamicdatadisks.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
