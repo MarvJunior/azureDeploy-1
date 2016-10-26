@@ -9,6 +9,12 @@
         "description" : "The URI hosting nested templates, for linked deployments"
       }
     },
+    "parameterFilesUri": {
+        "type": "string",
+        "metadata": {
+            "description": "The URI hosting parameter files for nested templates"
+        }
+    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -98,6 +104,10 @@
         "type": "int",
         "defaultValue": 0,
         "metadata": {"description": "Number of Data Disks to add to VM - taken from DataDiskArray variable"}
+    },
+    "dataDiskParamsFile": {
+        "type": "string",
+        "defaultValue": "nodata.disks.params.json"
     }
   },
   "variables": {
@@ -182,6 +192,10 @@
             "mode": "Incremental",
             "templateLink": {
                 "uri": "[concat(parameters('resourceTemplateUri'), 'vm-dynamicdatadisks.test.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parametersLink": {
+                "uri": "[concat(parameters('parameterFilesUri'), parameters('dataDiskParamsFile'))]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
