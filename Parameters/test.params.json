@@ -5,38 +5,24 @@
         "resourceTemplateUri": {
             "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Resources/"
         },
-        "parameterFilesUri": {
-            "value": "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Parameters/"
-        },
-        "vNetResourceGroup": {
-            "value": "TST-vNet"
-        },    
-        "vnetName": {
-            "value": "TST-vNet"
-        },    
-        "resourcePrefix": {
-            "value": "TST-Test"
-        },  
-        "subnetName": {
-            "value": "TST-Test"
-        },
-        "adminUsername": {
-            "value": "admin123"
-        },
-        "adminPassword": {
-            "value": "Admin123_!"
-        },
-        "vmSize": {
-            "value": "Standard_A1"
-        },
-        "instanceCount": {
-            "value": 2
-        },
-        "dataDiskCount": {
-            "value": 2
-        },
-        "dataDiskParamsFile": {
-            "value": "test.disks.params.json"
-        }
+        "vNetResourceGroup": {"value": "TST-vNet"},    
+        "vnetName": {"value": "TST-vNet"},    
+
+        "resourcePrefix": {"value": "TST-Test"},  
+        "subnetName": {"value": "TST-Test"},
+
+        "adminUsername": {"value": "admin123"},
+        "adminPassword": {"value": "Admin123_!"},
+
+        "vmSize": {"value": "Standard_A1"},
+        "instanceCount": {"value": 2},
+
+        "dataDiskCount": {"value": 2},
+        "dataDisk1_name": {"value": "dataDisk01"},
+        "dataDisk1_uriSuffix": {"value": "-dataDisk01.vhd"},
+        "dataDisk1_diskSizeGB": {"value": 1023},
+        "datadisk2_name": {"value": "dataDisk02"},
+        "datadisk2_uriSuffix": {"value": "-dataDisk02.vhd"},
+        "datadisk2_diskSizeGB": {"value": 512}        
     }
 }

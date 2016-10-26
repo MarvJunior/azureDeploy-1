@@ -9,12 +9,6 @@
         "description" : "The URI hosting nested templates, for linked deployments"
       }
     },
-    "parameterFilesUri": {
-        "type": "string",
-        "metadata": {
-            "description": "The URI hosting parameter files for nested templates"
-        }
-    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -105,10 +99,75 @@
         "defaultValue": 0,
         "metadata": {"description": "Number of Data Disks to add to VM - taken from DataDiskArray variable"}
     },
-    "dataDiskParamsFile": {
-        "type": "string",
-        "defaultValue": "nodata.disks.params.json"
-    }
+    "dataDisk1_name": {"type": "string","defaultValue": "disk1"},
+    "dataDisk1_uriSuffix": {"type": "string", "defaultValue": "-disk1.vhd"},
+    "dataDisk1_lun": {"type": "int", "defaultValue": 0},
+    "dataDisk1_createOption": {"type": "string", "defaultValue": "Empty"},
+    "dataDisk1_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "dataDisk1_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk2_name": {"type": "string","defaultValue": "disk2"},
+    "datadisk2_uriSuffix": {"type": "string", "defaultValue": "-disk2.vhd"},
+    "datadisk2_lun": {"type": "int", "defaultValue": 1},
+    "datadisk2_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk2_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk2_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk3_name": {"type": "string","defaultValue": "disk3"},
+    "datadisk3_uriSuffix": {"type": "string", "defaultValue": "-disk3.vhd"},
+    "datadisk3_lun": {"type": "int", "defaultValue": 2},
+    "datadisk3_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk3_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk3_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk4_name": {"type": "string","defaultValue": "disk4"},
+    "datadisk4_uriSuffix": {"type": "string", "defaultValue": "-disk4.vhd"},
+    "datadisk4_lun": {"type": "int", "defaultValue": 3},
+    "datadisk4_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk4_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk4_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk5_name": {"type": "string","defaultValue": "disk5"},
+    "datadisk5_uriSuffix": {"type": "string", "defaultValue": "-disk5.vhd"},
+    "datadisk5_lun": {"type": "int", "defaultValue": 4},
+    "datadisk5_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk5_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk5_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk6_name": {"type": "string","defaultValue": "disk6"},
+    "datadisk6_uriSuffix": {"type": "string", "defaultValue": "-disk6.vhd"},
+    "datadisk6_lun": {"type": "int", "defaultValue": 5},
+    "datadisk6_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk6_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk6_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk7_name": {"type": "string","defaultValue": "disk7"},
+    "datadisk7_uriSuffix": {"type": "string", "defaultValue": "-disk7.vhd"},
+    "datadisk7_lun": {"type": "int", "defaultValue": 6},
+    "datadisk7_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk7_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk7_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk8_name": {"type": "string","defaultValue": "disk8"},
+    "datadisk8_uriSuffix": {"type": "string", "defaultValue": "-disk8.vhd"},
+    "datadisk8_lun": {"type": "int", "defaultValue": 7},
+    "datadisk8_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk8_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk8_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk9_name": {"type": "string","defaultValue": "disk9"},
+    "datadisk9_uriSuffix": {"type": "string", "defaultValue": "-disk9.vhd"},
+    "datadisk9_lun": {"type": "int", "defaultValue": 8},
+    "datadisk9_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk9_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk9_diskSizeGB": {"type": "int", "defaultValue": 127},
+
+    "datadisk10_name": {"type": "string","defaultValue": "disk10"},
+    "datadisk10_uriSuffix": {"type": "string", "defaultValue": "-disk10.vhd"},
+    "datadisk10_lun": {"type": "int", "defaultValue": 9},
+    "datadisk10_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk10_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk10_diskSizeGB": {"type": "int", "defaultValue": 127}
   },
   "variables": {
     "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
@@ -194,10 +253,6 @@
                 "uri": "[concat(parameters('resourceTemplateUri'), 'vm-dynamicdatadisks.test.deploy.json')]",
                 "contentVersion": "1.0.0.0"
             },
-            "parametersLink": {
-                "uri": "[concat(parameters('parameterFilesUri'), parameters('dataDiskParamsFile'))]",
-                "contentVersion": "1.0.0.0"
-            },
             "parameters": {
                 "resourceGroupName": {"value": "[resourceGroup().name]"},
                 "resourceGroupLocation": {"value": "[resourceGroup().location]"},
@@ -212,7 +267,77 @@
                 "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
                 "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
                 "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), '-NIC')]"},
-                "dataDiskCount": {"value": "[parameters('dataDiskCount')]"}
+                "dataDiskCount": {"value": "[parameters('dataDiskCount')]"},
+
+                "dataDisk1_name": {"value": "[parameters('dataDisk1_name')]"},
+                "dataDisk1_uriSuffix": {"value": "[parameters('dataDisk1_uriSuffix')]"},
+                "dataDisk1_lun": {"value": "[parameters('dataDisk1_lun')]"},
+                "dataDisk1_createOption": {"value": "[parameters('dataDisk1_createOption')]"},
+                "dataDisk1_caching": {"value": "[parameters('dataDisk1_caching')]"},
+                "dataDisk1_diskSizeGB": {"value": "[parameters('dataDisk1_diskSizeGB')]"},
+
+                "datadisk2_name": {"value": "[parameters('datadisk2_name')]"},
+                "datadisk2_uriSuffix": {"value": "[parameters('datadisk2_uriSuffix')]"},
+                "datadisk2_lun": {"value": "[parameters('datadisk2_lun')]"},
+                "datadisk2_createOption": {"value": "[parameters('datadisk2_createOption')]"},
+                "datadisk2_caching": {"value": "[parameters('datadisk2_caching')]"},
+                "datadisk2_diskSizeGB": {"value": "[parameters('datadisk2_diskSizeGB')]"},
+
+                "datadisk3_name": {"value": "[parameters('datadisk3_name')]"},
+                "datadisk3_uriSuffix": {"value": "[parameters('datadisk3_uriSuffix')]"},
+                "datadisk3_lun": {"value": "[parameters('datadisk3_lun')]"},
+                "datadisk3_createOption": {"value": "[parameters('datadisk3_createOption')]"},
+                "datadisk3_caching": {"value": "[parameters('datadisk3_caching')]"},
+                "datadisk3_diskSizeGB": {"value": "[parameters('datadisk3_diskSizeGB')]"},
+
+                "datadisk4_name": {"value": "[parameters('datadisk4_name')]"},
+                "datadisk4_uriSuffix": {"value": "[parameters('datadisk4_uriSuffix')]"},
+                "datadisk4_lun": {"value": "[parameters('datadisk4_lun')]"},
+                "datadisk4_createOption": {"value": "[parameters('datadisk4_createOption')]"},
+                "datadisk4_caching": {"value": "[parameters('datadisk4_caching')]"},
+                "datadisk4_diskSizeGB": {"value": "[parameters('datadisk4_diskSizeGB')]"},
+
+                "datadisk5_name": {"value": "[parameters('datadisk5_name')]"},
+                "datadisk5_uriSuffix": {"value": "[parameters('datadisk5_uriSuffix')]"},
+                "datadisk5_lun": {"value": "[parameters('datadisk5_lun')]"},
+                "datadisk5_createOption": {"value": "[parameters('datadisk5_createOption')]"},
+                "datadisk5_caching": {"value": "[parameters('datadisk5_caching')]"},
+                "datadisk5_diskSizeGB": {"value": "[parameters('datadisk5_diskSizeGB')]"},
+
+                "datadisk6_name": {"value": "[parameters('datadisk6_name')]"},
+                "datadisk6_uriSuffix": {"value": "[parameters('datadisk6_uriSuffix')]"},
+                "datadisk6_lun": {"value": "[parameters('datadisk6_lun')]"},
+                "datadisk6_createOption": {"value": "[parameters('datadisk6_createOption')]"},
+                "datadisk6_caching": {"value": "[parameters('datadisk6_caching')]"},
+                "datadisk6_diskSizeGB": {"value": "[parameters('datadisk6_diskSizeGB')]"},
+
+                "datadisk7_name": {"value": "[parameters('datadisk7_name')]"},
+                "datadisk7_uriSuffix": {"value": "[parameters('datadisk7_uriSuffix')]"},
+                "datadisk7_lun": {"value": "[parameters('datadisk7_lun')]"},
+                "datadisk7_createOption": {"value": "[parameters('datadisk7_createOption')]"},
+                "datadisk7_caching": {"value": "[parameters('datadisk7_caching')]"},
+                "datadisk7_diskSizeGB": {"value": "[parameters('datadisk7_diskSizeGB')]"},
+
+                "datadisk8_name": {"value": "[parameters('datadisk8_name')]"},
+                "datadisk8_uriSuffix": {"value": "[parameters('datadisk8_uriSuffix')]"},
+                "datadisk8_lun": {"value": "[parameters('datadisk8_lun')]"},
+                "datadisk8_createOption": {"value": "[parameters('datadisk8_createOption')]"},
+                "datadisk8_caching": {"value": "[parameters('datadisk8_caching')]"},
+                "datadisk8_diskSizeGB": {"value": "[parameters('datadisk8_diskSizeGB')]"},
+
+                "datadisk9_name": {"value": "[parameters('datadisk9_name')]"},
+                "datadisk9_uriSuffix": {"value": "[parameters('datadisk9_uriSuffix')]"},
+                "datadisk9_lun": {"value": "[parameters('datadisk9_lun')]"},
+                "datadisk9_createOption": {"value": "[parameters('datadisk9_createOption')]"},
+                "datadisk9_caching": {"value": "[parameters('datadisk9_caching')]"},
+                "datadisk9_diskSizeGB": {"value": "[parameters('datadisk9_diskSizeGB')]"},
+
+                "datadisk10_name": {"value": "[parameters('datadisk10_name')]"},
+                "datadisk10_uriSuffix": {"value": "[parameters('datadisk10_uriSuffix')]"},
+                "datadisk10_lun": {"value": "[parameters('datadisk10_lun')]"},
+                "datadisk10_createOption": {"value": "[parameters('datadisk10_createOption')]"},
+                "datadisk10_caching": {"value": "[parameters('datadisk10_caching')]"},
+                "datadisk10_diskSizeGB": {"value": "[parameters('datadisk10_diskSizeGB')]"}
             }
         }
     }
