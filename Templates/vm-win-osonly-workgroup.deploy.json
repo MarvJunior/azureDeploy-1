@@ -97,111 +97,124 @@
   },
   "variables": {
     "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
+    "availabilitySetName": "[parameters('resourcePrefix')]",
     "vhdStoragePath" : "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
-    "nicName" : "[parameters('resourcePrefix')]"
+    "nicName" : "[parameters('resourcePrefix')]",
+    "vmName": "[parameters('resourcePrefix')]"
   },
   "resources": [
     {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(variables('storageAccountName'),'-SA')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "tags":{
-        "displayName": "Storage Account"
-      },
-      "properties": {
-        "accountType": "[parameters('storageAccountType')]"
-      }
-    },
-    {
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat(parameters('resourcePrefix'),'-AS')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "tags":{
-        "displayName": "Availability Set"
-      },
-      "properties": {}
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourcePrefix'),'-staticNetworkInterfaces')]",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-            "uri": "[concat(parameters('nestedTemplateUri'), 'nic-static.json')]",
-            "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "nestedTemplateUri" : {"value":"[parameters('nestedTemplateUri')]"},
-          "subnetRef": {"value": "[variables('subnetRef')]"},
-          "nicName": {"value": "[concat(variables('nicName'))]"},
-          "instanceCount" : {"value": "[parameters('instanceCount')]"},
-          "location": {"value": "[resourceGroup().location]"}
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-VM')]",
-      "copy": {
-        "name": "virtualMachineLoop",
-        "count": "[parameters('instanceCount')]"
-      },
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Compute/availabilitySets/', parameters('resourcePrefix'))]",
-        "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-networkInterfaces')]" 
-      ],
-      "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets',parameters('resourcePrefix'))]"
-        },
-        "hardwareProfile": {
-          "vmSize": "[parameters('vmSize')]"
-        },
-        "osProfile": {
-          "computerName": "[concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'))]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[parameters('imagePublisher')]",
-            "offer": "[parameters('imageOffer')]",
-            "sku": "[parameters('imageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat(variables('vhdStoragePath'),parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-osdisk.vhd')]"
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(variables('storageAccountName'),'-StorageAccount')]",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('nestedTemplateUri'), 'storageAccount.json')]",
+                "contentVersion": "1.0.0.0"            
             },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          },
-          "dataDisks": []
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0')))]"
+            "parameters": {
+                "storageAccountType": {"value":"[parameters('storageAccountType')]"},
+                "storageAccountName": {"value":"[variables('storageAccountName')]"},
+                "location": {"value":"[resourceGroup().location]"}
             }
-          ]
-        },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-             "enabled": "true",
-             "storageUri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net')]"
-          }
         }
-      }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(variables('availabilitySetName'),'-AvailabilitySet')]",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('nestedTemplateUri'), 'availabilitySet.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "availabilitySetName": {"value": "[variables('availabilitySetName')]"},
+                "location": {"value": "[resourceGroup().location]"}
+            }
+        }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(parameters('resourcePrefix'),'-staticNetworkInterfaces')]",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('nestedTemplateUri'), 'nic-static.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+            "nestedTemplateUri" : {"value":"[parameters('nestedTemplateUri')]"},
+            "subnetRef": {"value": "[variables('subnetRef')]"},
+            "nicName": {"value": "[concat(variables('nicName'))]"},
+            "instanceCount" : {"value": "[parameters('instanceCount')]"},
+            "location": {"value": "[resourceGroup().location]"}
+            }
+        }
+    },
+    {
+        "apiVersion": "2015-06-15",
+        "type": "Microsoft.Compute/virtualMachines",
+        "name": "[concat(variables('vmName'), '-', padleft(copyindex(1), 2, '0'),'-VM')]",
+        "copy": {
+            "name": "virtualMachineLoop",
+            "count": "[parameters('instanceCount')]"
+        },
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StorageAccount')]", 
+            "[concat('Microsoft.Resources/deployments/',variables('availabilitySetName'),'-AvailabilitySet')]", 
+            "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]" 
+        ],
+        "properties": {
+            "availabilitySet": {
+            "id": "[resourceId('Microsoft.Compute/availabilitySets',parameters('resourcePrefix'))]"
+            },
+            "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
+            },
+            "osProfile": {
+            "computerName": "[concat(variables('vmName'), '-', padleft(copyindex(1), 2, '0'))]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]"
+            },
+            "storageProfile": {
+            "imageReference": {
+                "publisher": "[parameters('imagePublisher')]",
+                "offer": "[parameters('imageOffer')]",
+                "sku": "[parameters('imageSKU')]",
+                "version": "latest"
+            },
+            "osDisk": {
+                "name": "osdisk",
+                "vhd": {
+                "uri": "[concat(variables('vhdStoragePath'),parameters('resourcePrefix'), '-', padleft(copyindex(1), 2, '0'),'-osdisk.vhd')]"
+                },
+                "caching": "ReadWrite",
+                "createOption": "FromImage"
+            },
+            "dataDisks": []
+            },
+            "networkProfile": {
+            "networkInterfaces": [
+                {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC'))]"
+                }
+            ]
+            },
+            "diagnosticsProfile": {
+            "bootDiagnostics": {
+                "enabled": "true",
+                "storageUri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net')]"
+            }
+            }
+        }
     }
   ]
 }
