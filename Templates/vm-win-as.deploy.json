@@ -93,15 +93,6 @@
       "metadata": {
         "description": "The name of the Subnet where Virtual Machines will be created"
       }
-    },
-    "dataDiskProperties": {
-        "type": "object",
-        "metadata": {"description": "Object detailing Data Disk properties"}
-    },
-    "dataDiskCount": {
-        "type": "int",
-        "defaultValue": 0,
-        "metadata": {"description": "Number of Data Disks to add to VM - taken from DataDiskArray variable"}
     }
   },
   "variables": {
@@ -185,7 +176,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('nestedTemplateUri'), 'vm-dynamicdatadisks.test.json')]",
+                "uri": "[concat(parameters('nestedTemplateUri'), 'vm-dynamicdatadisks.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -201,9 +192,7 @@
                 "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
                 "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
                 "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
-                "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), '-NIC')]"},
-                "dataDiskCount": {"value": "[parameters('dataDiskCount')]"},
-                "dataDiskProperties": {"value": "[parameters('dataDiskProperties')]"}  
+                "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), '-NIC')]"}      
             }
         }
     }

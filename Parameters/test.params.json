@@ -1,35 +1,54 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "nestedTemplateUri": {
-      "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested/"
-    },
-    "vNetResourceGroup": {
-      "value": "TST-vNet"
-    },    
-    "vnetName": {
-      "value": "TST-vNet"
-    }, 
-
-    
-    "resourcePrefix": {
-      "value": "TST-Test"
-    },  
-    "subnetName": {
-      "value": "TST-Test"
-    },
-    "adminUsername": {
-      "value": "admin123"
-    },
-    "adminPassword": {
-      "value": "Admin123_!"
-    },
-    "vmSize": {
-      "value": "Standard_A1"
-    },
-    "instanceCount": {
-      "value": 2
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "nestedTemplateUri": {
+            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Nested/"
+        },
+        "vNetResourceGroup": {
+            "value": "TST-vNet"
+        },    
+        "vnetName": {
+            "value": "TST-vNet"
+        },    
+        "resourcePrefix": {
+            "value": "TST-Test"
+        },  
+        "subnetName": {
+            "value": "TST-Test"
+        },
+        "adminUsername": {
+            "value": "admin123"
+        },
+        "adminPassword": {
+            "value": "Admin123_!"
+        },
+        "vmSize": {
+            "value": "Standard_A1"
+        },
+        "instanceCount": {
+            "value": 2
+        },
+        "dataDiskProperties": {
+            "value": {
+                "dataDisk1": {
+                    "lun": 0,
+                    "vhdSuffix": "-datadisk1.vhd",
+                    "createOption": "empty",
+                    "caching": "ReadWrite",
+                    "diskSizeGB": 256
+                },
+                "dataDisk2": {
+                    "lun": 1,
+                    "vhdSuffix": "-datadisk2.vhd",
+                    "createOption": "empty",
+                    "caching": "ReadWrite",
+                    "diskSizeGB": 1023
+                }            
+            }
+        },
+        "dataDiskCount": {
+            "value": 2
+        }
     }
-  }
 }

@@ -1,0 +1,168 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceGroupName": {
+            "type": "string", 
+            "metadata": {"description": "Name of parent Resource Group"}
+        },
+        "resourceGroupLocation": {
+            "type": "string",
+            "metadata": {"description": "Location of parent Resource Group"}
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {"description": "Admin username"}
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {"description": "Admin password"}
+        },
+        "imagePublisher": {
+            "type": "string",
+            "defaultValue": "MicrosoftWindowsServer",
+            "metadata": {"description": "Image Publisher"}
+        },
+        "imageOffer": {
+            "type": "string",
+            "defaultValue": "WindowsServer",
+            "metadata": {"description": "Image Offer"}
+        },
+        "imageSKU": {
+            "type": "string",
+            "defaultValue": "2012-R2-Datacenter",
+            "allowedValues": [
+                "2012-R2-Datacenter"
+            ],
+            "metadata": {"description": "Image SKU"}
+        },
+        "vmSize": {
+            "type": "string",
+            "minLength": 1,
+            "defaultValue": "Standard_A1",
+            "metadata": {"description": "Size of the virtual machine, must be available in the virtual machine's location"}
+        },
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {"description": "Name of Storage Account for Virtual Machine disks"}
+        },
+        "vmName": {
+            "type": "string", 
+            "metadata": {"description": "Name of Virtual Machine Resource"}
+        },
+        "osName": {
+            "type": "string", 
+            "metadata": {"description": "Hostname for Operating System"}
+        }, 
+        "availabilitySetName": {
+            "type": "string", 
+            "metadata": {"description": "Name of Availablity Set"}
+        }, 
+        "nicName" : {
+            "type": "string", 
+            "metadata": {"description": "Name of Network Interface for Virtual Machine"}
+        },
+        "dataDiskProperties": {
+            "type": "object",
+            "metadata": {"description": "Object containing Data Disk properties"}
+        },
+        "dataDiskCount": {
+            "type": "int",
+            "defaultValue": 0,
+            "metadata": {"description": "Number of Data Disks to add to VM - taken from DataDiskArray variable"}
+        }
+    },
+    "variables": {
+        "vhdStoragePath" : "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]",
+        "dataDiskArray": [
+            {
+                "name": "datadisk1",
+                "lun": "[parameters('dataDiskProperties').disk1.lun]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDiskProperties').dataDisk1.vhdSuffix)]"
+                },
+                "createOption": "parameters('dataDiskProperties').dataDisk1..createOption]",
+                "caching": "[parameters('dataDiskProperties').dataDisk1.caching]",
+                "diskSizeGB": "[parameters('dataDiskProperties').dataDisk1.diskSizeGB]"
+            },
+            {
+                "name": "datadisk2",
+                "lun": "[parameters('dataDiskProperties').disk2.lun]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDiskProperties').dataDisk2.vhdSuffix)]"
+                },
+                "createOption": "parameters('dataDiskProperties').dataDisk2.createOption]",
+                "caching": "[parameters('dataDiskProperties').dataDisk2.caching]",
+                "diskSizeGB": "[parameters('dataDiskProperties').dataDisk2.diskSizeGB]"
+            },
+            {
+                "name": "datadisk3",
+                "lun": "[parameters('dataDiskProperties').disk3.lun]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDiskProperties').dataDisk3.vhdSuffix)]"
+                },
+                "createOption": "parameters('dataDiskProperties').dataDisk3.createOption]",
+                "caching": "[parameters('dataDiskProperties').dataDisk3.caching]",
+                "diskSizeGB": "[parameters('dataDiskProperties').dataDisk3.diskSizeGB]"
+            }
+        ]
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('vmName')]",
+            "location": "[parameters('resourceGroupLocation')]",
+            "dependsOn": [],
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId(parameters('resourceGroupName'),'Microsoft.Compute/availabilitySets',parameters('availabilitySetName'))]"
+                },
+                "hardwareProfile": {
+                "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('osName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                "imageReference": {
+                    "publisher": "[parameters('imagePublisher')]",
+                    "offer": "[parameters('imageOffer')]",
+                    "sku": "[parameters('imageSKU')]",
+                    "version": "latest"
+                },
+                "osDisk": {
+                    "name": "osdisk",
+                    "vhd": {
+                        "uri": "[concat(variables('vhdStoragePath'),parameters('vmName'), '-osdisk.vhd')]"
+                    },
+                    "caching": "ReadWrite",
+                    "createOption": "FromImage"
+                },
+                    "dataDisks": "[take(variables('dataDiskArray'),parameters('dataDiskCount'))]"
+                },
+                "networkProfile": {
+                "networkInterfaces": [
+                        {
+                        "id": "[resourceId(parameters('resourceGroupName'),'Microsoft.Network/networkInterfaces',parameters('nicName'))]"
+                        }
+                    ]
+                },
+                    "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": "true",
+                        "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "vmRef": {
+            "type": "object",
+            "value": "[reference(parameters('vmName'))]"
+        }
+    }
+}
