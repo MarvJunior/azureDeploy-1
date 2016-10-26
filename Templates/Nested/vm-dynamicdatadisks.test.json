@@ -77,7 +77,7 @@
         "dataDiskArray": [
             {
                 "name": "datadisk1",
-                "lun": "[parameters('dataDiskProperties').disk1.lun]",
+                "lun": "[parameters('dataDiskProperties').dataDisk1.lun]",
                 "vhd": {
                     "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDiskProperties').dataDisk1.vhdSuffix)]"
                 },
@@ -87,7 +87,7 @@
             },
             {
                 "name": "datadisk2",
-                "lun": "[parameters('dataDiskProperties').disk2.lun]",
+                "lun": "[parameters('dataDiskProperties').dataDisk2.lun]",
                 "vhd": {
                     "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDiskProperties').dataDisk2.vhdSuffix)]"
                 },
@@ -97,7 +97,7 @@
             },
             {
                 "name": "datadisk3",
-                "lun": "[parameters('dataDiskProperties').disk3.lun]",
+                "lun": "[parameters('dataDiskProperties').dataDisk3.lun]",
                 "vhd": {
                     "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDiskProperties').dataDisk3.vhdSuffix)]"
                 },
