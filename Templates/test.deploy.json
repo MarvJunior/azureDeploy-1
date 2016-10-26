@@ -185,7 +185,7 @@
                 "adminUsername": {"value": "[parameters('adminUsername')]"},
                 "adminPassword": {"value": "[parameters('adminPassword')]"},
                 "imagePublisher": {"value":"[parameters('imagePublisher')]"},
-                "imageOffier": {"value": "[parameters('imageOffer')]"},
+                "imageOffer": {"value": "[parameters('imageOffer')]"},
                 "imageSKU": {"value": "[parameters('imageSKU')]"},
                 "vmSize": {"value": "[parameters('vmSize')]"},
                 "storageAccountName": {"value": "[variables('storageAccountName')]"},
