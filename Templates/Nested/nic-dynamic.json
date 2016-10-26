@@ -1,7 +1,13 @@
 {
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {   
+  "parameters": {  
+    "resourceGrouplocation": {
+      "type": "string",
+      "metadata": {
+        "description": "A reference to a resource location"
+      }
+    },
     "nicName": {
       "type": "string",
       "defaultValue": "",
@@ -21,13 +27,8 @@
       "metadata": {
         "description": "A reference to an existing subnet"
       }
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "A reference to a resource location"
-      }
     }
+
   },
   "variables": {},
   "resources": [
@@ -35,7 +36,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('resourceGroupLocation')]",
       "copy": {
         "name" : "nicLoop",
         "count" : "[parameters('instanceCount')]"
