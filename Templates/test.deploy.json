@@ -98,7 +98,6 @@
   "variables": {
     "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "availabilitySetName": "[parameters('resourcePrefix')]",
-    "vhdStoragePath" : "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
     "nicName" : "[parameters('resourcePrefix')]",
@@ -118,7 +117,7 @@
             "parameters": {
                 "storageAccountType": {"value":"[parameters('storageAccountType')]"},
                 "storageAccountName": {"value":"[variables('storageAccountName')]"},
-                "location": {"value":"[resourceGroup().location]"}
+                "resourceGroupLocation": {"value":"[resourceGroup().location]"}
             }
         }
     },
@@ -134,7 +133,7 @@
             },
             "parameters": {
                 "availabilitySetName": {"value": "[variables('availabilitySetName')]"},
-                "location": {"value": "[resourceGroup().location]"}
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"}
             }
         }
     },
@@ -154,13 +153,13 @@
             "subnetRef": {"value": "[variables('subnetRef')]"},
             "nicName": {"value": "[concat(variables('nicName'))]"},
             "instanceCount" : {"value": "[parameters('instanceCount')]"},
-            "location": {"value": "[resourceGroup().location]"}
+            "resourceGroupLocation": {"value": "[resourceGroup().location]"}
             }
         }
     },
     {
         "type": "Microsoft.Resources/deployments",
-        "name": "[concat(parameters('resourcePrefix'),'-virtualMachines')]",
+        "name": "[concat(parameters('resourcePrefix'),'-',padLeft(copyIndex(1),2,'0'),'-virtualMachine')]",
         "apiVersion": "2015-01-01",
         "copy": {
             "name": "vmCopy",
@@ -182,15 +181,15 @@
                 "resourceGroupLocation": {"value": "[resourceGroup().location]"},
                 "adminUsername": {"value": "[parameters('adminUsername')]"},
                 "adminPassword": {"value": "[parameters('adminPassword')]"},
-                "imagePublisher": {"value": "[parameters('imagePublisher')]"},
+                "imagePublisher": {"value":"[parameters('imagePublisher')]"},
                 "imageOffier": {"value": "[parameters('imageOffer')]"},
                 "imageSKU": {"value": "[parameters('imageSKU')]"},
                 "vmSize": {"value": "[parameters('vmSize')]"},
                 "storageAccountName": {"value": "[variables('storageAccountName')]"},
-                "vmName": {"value": "[concat(variables('vmName'),'-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
-                "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},
-                "availabilitySetName": {"value": "[variables('availabilitySetName')]"},
-                "nicName": {"value": "[concat(variables('nicName'))]"}      
+                "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
+                "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
+                "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
+                "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), '-NIC')]"}      
             }
         }
     }
