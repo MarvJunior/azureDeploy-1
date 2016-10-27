@@ -171,11 +171,13 @@
   },
   "variables": {
     "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
-    "availabilitySetName": "[concat(parameters('resourcePrefix'),'-AS')]",
+    "availabilitySetName": "[concat(parameters('resourcePrefix'), '-AS')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
     "nicName" : "[parameters('resourcePrefix')]",
-    "vmName": "[parameters('resourcePrefix')]"
+    "nicSuffix": "-NIC",
+    "vmName": "[parameters('resourcePrefix')]",
+    "vmSuffix": "-VM"
   },
   "resources": [
     {
@@ -225,12 +227,12 @@
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
-            "resourceTemplateUri" : {"value":"[parameters('resourceTemplateUri')]"},
-            "subnetRef": {"value": "[variables('subnetRef')]"},
-            "nicName": {"value": "[concat(variables('nicName'))]"},
-            "instanceCount" : {"value": "[parameters('instanceCount')]"},
-            "resourceGroupName": {"value":"[resourceGroup().name]"},
-            "resourceGroupLocation": {"value": "[resourceGroup().location]"}
+                "resourceTemplateUri" : {"value":"[parameters('resourceTemplateUri')]"},
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"},
+                "subnetRef": {"value": "[variables('subnetRef')]"},
+                "nicName": {"value": "[concat(variables('nicName'), variables('nicSuffix'))]"},
+                "instanceCount" : {"value": "[parameters('instanceCount')]"}
             }
         }
     },
@@ -265,8 +267,8 @@
                 "storageAccountName": {"value": "[variables('storageAccountName')]"},
                 "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
                 "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
-                "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
-                "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), '-NIC')]"},
+                "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), variables('vmSuffix'))]"},
+                "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), variables('nicSuffix'))]"},
                 "dataDiskCount": {"value": "[parameters('dataDiskCount')]"},
 
                 "dataDisk1_name": {"value": "[parameters('dataDisk1_name')]"},

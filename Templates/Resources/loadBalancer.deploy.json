@@ -19,7 +19,7 @@
         },
         "publicIpAddressId":{
             "type": "string",
-            "defaultValue": null,
+            "defaultValue": "",
             "metadata": {
                 "description": "Id for previously created Public IP, if required"
             } 
