@@ -175,9 +175,29 @@
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
     "nicName" : "[parameters('resourcePrefix')]",
-    "vmName": "[parameters('resourcePrefix')]"
+    "vmName": "[parameters('resourcePrefix')]",
+
+    "lbName" : "[parameters('resourcePrefix')]",
+    "lbSuffix": "-ALB"
   },
   "resources": [
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(variables('lbName'),'-LoadBalancer')]",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'loadBalancer.deploy.json')]",
+                "contentVersion": "1.0.0.0"            
+            },
+            "parameters": {
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value":"[resourceGroup().location]"},
+                "loadBalancerName": {"value": "[concat(variables('lbName'), variables('lbSuffix'))]"}      
+            }
+        }
+    },      
     {
         "type": "Microsoft.Resources/deployments",
         "name": "[concat(variables('storageAccountName'),'-StorageAccount')]",
