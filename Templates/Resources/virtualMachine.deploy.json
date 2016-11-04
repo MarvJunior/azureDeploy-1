@@ -121,21 +121,7 @@
         "dataDisk8_lun": {"type": "int", "defaultValue": 7},
         "dataDisk8_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk8_caching": {"type": "string", "defaultValue": "ReadWrite"},
-        "dataDisk8_diskSizeGB": {"type": "int", "defaultValue": 127},
-
-        "dataDisk9_name": {"type": "string","defaultValue": "disk9"},
-        "dataDisk9_uriSuffix": {"type": "string", "defaultValue": "-disk9.vhd"},
-        "dataDisk9_lun": {"type": "int", "defaultValue": 8},
-        "dataDisk9_createOption": {"type": "string", "defaultValue": "Empty"},
-        "dataDisk9_caching": {"type": "string", "defaultValue": "ReadWrite"},
-        "dataDisk9_diskSizeGB": {"type": "int", "defaultValue": 127},
-
-        "dataDisk10_name": {"type": "string","defaultValue": "disk10"},
-        "dataDisk10_uriSuffix": {"type": "string", "defaultValue": "-disk10.vhd"},
-        "dataDisk10_lun": {"type": "int", "defaultValue": 9},
-        "dataDisk10_createOption": {"type": "string", "defaultValue": "Empty"},
-        "dataDisk10_caching": {"type": "string", "defaultValue": "ReadWrite"},
-        "dataDisk10_diskSizeGB": {"type": "int", "defaultValue": 127}
+        "dataDisk8_diskSizeGB": {"type": "int", "defaultValue": 127}
     },
     "variables": {
         "vhdStoragePath" : "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]",
@@ -169,6 +155,56 @@
                 "createOption": "[parameters('dataDisk3_createOption')]",
                 "caching": "[parameters('dataDisk3_caching')]",
                 "diskSizeGB": "[parameters('dataDisk3_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk4_name')]",
+                "lun": "[parameters('dataDisk4_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk4_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk4_createOption')]",
+                "caching": "[parameters('dataDisk4_caching')]",
+                "diskSizeGB": "[parameters('dataDisk4_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk5_name')]",
+                "lun": "[parameters('dataDisk5_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk5_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk5_createOption')]",
+                "caching": "[parameters('dataDisk5_caching')]",
+                "diskSizeGB": "[parameters('dataDisk5_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk6_name')]",
+                "lun": "[parameters('dataDisk6_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk6_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk6_createOption')]",
+                "caching": "[parameters('dataDisk6_caching')]",
+                "diskSizeGB": "[parameters('dataDisk6_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk7_name')]",
+                "lun": "[parameters('dataDisk7_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk7_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk7_createOption')]",
+                "caching": "[parameters('dataDisk7_caching')]",
+                "diskSizeGB": "[parameters('dataDisk7_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk8_name')]",
+                "lun": "[parameters('dataDisk8_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk8_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk8_createOption')]",
+                "caching": "[parameters('dataDisk8_caching')]",
+                "diskSizeGB": "[parameters('dataDisk8_diskSizeGB')]"
             }
         ]
     },
