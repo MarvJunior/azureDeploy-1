@@ -11,6 +11,8 @@
         "resourcePrefix": {"value": "TST-Test"},  
         "subnetName": {"value": "TST-Test"},
 
+        "lbSubnetName": {"value": "Tst-Test"},
+
         "adminUsername": {"value": "admin123"},
         "adminPassword": {"value": "Admin123_!"},
 
