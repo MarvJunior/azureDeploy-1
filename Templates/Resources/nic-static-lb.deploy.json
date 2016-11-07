@@ -91,7 +91,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-            "uri": "[concat(parameters('resourceTemplateUri'), 'set-staticnic.json')]",
+            "uri": "[concat(parameters('resourceTemplateUri'), 'set-staticnic-lb.json')]",
             "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -101,7 +101,8 @@
             "resourceGroupLocation": {"value": "[parameters('resourceGroupLocation')]"},
             "ipAddress" : {
                 "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
-            }       
+            },
+            "lbID": {"value": "[parameters('lbID')]"}     
         }
       }
     }
