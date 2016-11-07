@@ -100,13 +100,14 @@
             "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "subnetRef": {"value": "[parameters('subnetRef')]"},
-          "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]"}, 
-          "resourceGroupName": {"value": "[parameters('resourceGroupName')]"},             
-          "resourceGroupLocation": {"value": "[parameters('resourceGroupLocation')]"},
-          "ipAddress" : {
-            "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
-            }              
+            "subnetRef": {"value": "[parameters('subnetRef')]"},
+            "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]"}, 
+            "resourceGroupName": {"value": "[parameters('resourceGroupName')]"},             
+            "resourceGroupLocation": {"value": "[parameters('resourceGroupLocation')]"},
+            "ipAddress" : {
+                "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
+            },
+            "lbBackendAddressPoolIDs" : "[parameters('lbBackendAddressPoolIDs')]"            
         }
       }
     }

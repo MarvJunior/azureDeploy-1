@@ -261,8 +261,7 @@
         "backendPort": 3389,
         "enableFloatingIP": false
       }
-    },
-      
+    },     
     {
         "type": "Microsoft.Resources/deployments",
         "name": "[concat(variables('storageAccountName'),'-StorageAccount')]",

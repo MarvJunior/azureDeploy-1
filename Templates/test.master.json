@@ -248,7 +248,7 @@
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value": "[resourceGroup().location]"},
                 "lbBackendAddressPoolIDs": {"value": [
-                    "[reference(concat(resourceGroup().name, 'Microsoft.Network/Loadbalancers/', variables('lbName'), variables('lbSuffix'), '/backendAddressPools/BackendPool1'))]"
+                    "[concat(resourceId(resourceGroup().name, 'Microsoft.Network/Loadbalancers', concat(variables('lbName'), variables('lbSuffix'))), '/backendAddressPools/BackendPool1')]"
                 ]}
             }
         }
