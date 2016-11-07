@@ -231,7 +231,9 @@
         "type": "Microsoft.Resources/deployments",
         "name": "[concat(parameters('resourcePrefix'),'-staticNetworkInterfaces')]",
         "apiVersion": "2015-01-01",
-        "dependsOn": [],
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/',variables('lbName'), '-LoadBalancer')]"           
+        ],
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -239,12 +241,15 @@
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
-            "resourceTemplateUri" : {"value":"[parameters('resourceTemplateUri')]"},
-            "subnetRef": {"value": "[variables('subnetRef')]"},
-            "nicName": {"value": "[concat(variables('nicName'))]"},
-            "instanceCount" : {"value": "[parameters('instanceCount')]"},
-            "resourceGroupName": {"value":"[resourceGroup().name]"},
-            "resourceGroupLocation": {"value": "[resourceGroup().location]"}
+                "resourceTemplateUri" : {"value":"[parameters('resourceTemplateUri')]"},
+                "subnetRef": {"value": "[variables('subnetRef')]"},
+                "nicName": {"value": "[concat(variables('nicName'))]"},
+                "instanceCount" : {"value": "[parameters('instanceCount')]"},
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"},
+                "lbBackendAddressPoolIDs": {"value": [
+                    "[reference(concat(resourceGroup().name, 'Microsoft.Network/Loadbalancers/', variables('lbName'), variables('lbSuffix'), '/backendAddressPools/BackendPool1'))]"
+                ]}
             }
         }
     },
