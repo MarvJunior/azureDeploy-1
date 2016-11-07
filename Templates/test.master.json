@@ -94,6 +94,12 @@
         "description": "The name of the Subnet where Virtual Machines will be created"
       }
     },
+    "lbSubnetName": {
+        "type": "string",
+        "metadata": {
+            "description": "The name of the Subnet for the Azure Load Balancer"
+        }
+    },
     "dataDiskCount": {
         "type": "int",
         "defaultValue": 0,
@@ -164,6 +170,7 @@
     "vmName": "[parameters('resourcePrefix')]",
 
     "lbName" : "[parameters('resourcePrefix')]",
+    "lbSubnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('lbSubnetName'))]",
     "lbSuffix": "-ALB"
   },
   "resources": [
@@ -174,13 +181,14 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'loadBalancer.deploy.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'loadBalancer-internal.deploy.json')]",
                 "contentVersion": "1.0.0.0"            
             },
             "parameters": {
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"},
-                "loadBalancerName": {"value": "[concat(variables('lbName'), variables('lbSuffix'))]"}      
+                "loadBalancerName": {"value": "[concat(variables('lbName'), variables('lbSuffix'))]"},
+                "lbSubnetRef": {"value": "[variables('lbSubnetRef')]"}    
             }
         }
     },      

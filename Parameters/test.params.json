@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "resourceTemplateUri": {
-            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/Resources/"
+            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/dev/Templates/Resources/"
         },
         "vNetResourceGroup": {"value": "TST-vNet"},    
         "vnetName": {"value": "TST-vNet"},    
