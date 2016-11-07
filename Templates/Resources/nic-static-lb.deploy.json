@@ -40,7 +40,7 @@
       }
     }, 
     "lbID": {
-        "type": "object", 
+        "type": "string", 
         "metadata": {
             "description": "ID Reference of Load Balancer"
         }
@@ -101,7 +101,7 @@
             "resourceGroupLocation": {"value": "[parameters('resourceGroupLocation')]"},
             "ipAddress" : {
                 "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
-            }          
+            }       
         }
       }
     }
