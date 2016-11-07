@@ -247,7 +247,7 @@
                 "instanceCount" : {"value": "[parameters('instanceCount')]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value": "[resourceGroup().location]"},
-                "lbId": {"value": "[reference(concat(variables('lbName'),'-LoadBalancer')).outputs.lbref.id.value]"}
+                "lbId": {"value": "[reference(concat(variables('lbName'),'-LoadBalancer')).outputs.lbId.value]"}
             }
         }
     },
