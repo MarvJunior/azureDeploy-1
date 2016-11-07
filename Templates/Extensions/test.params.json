@@ -11,11 +11,17 @@
         "vmName": {
             "value": "Tst-Test-01-VM"
         },
-        "domainJoinOU": {
+        "domainJoinOUPath": {
             "value": "OU=Computers, OU=LRS, DC=LRS, DC=Development"
         },
         "domainToJoin": {
             "value": "lrs.development"
+        },
+        "domainJoinUserName": {
+            "value": "test"
+        },
+        "domainJoinPassword": {
+            "value": "Password123"
         }
     }
 }

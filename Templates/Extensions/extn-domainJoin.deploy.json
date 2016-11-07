@@ -24,7 +24,7 @@
             "description": "The NetBIOS name for the Domain"
         }
     },
-    "domainUserName": {
+    "domainJoinUserName": {
         "type": "string",
         "metadata": {
             "description": "An administrative user account"
@@ -37,14 +37,14 @@
             "description": "Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx"
         }
     },
-    "DomainPassword": {
+    "domainJoinPassword": {
       "type": "securestring",
       "defaultValue": "Default value needed for Visual Studio to deploy without asking for username/password which is passed in at runtime",
       "metadata": {
         "description": "Secure passord"
       }
     },
-    "DomainOUPath": {
+    "domainJoinOUPath": {
       "type": "string",
       "defaultValue": "OU=",
       "metadata": {
@@ -67,13 +67,13 @@
             "typeHandlerVersion": "1.0",
             "settings": {
             "Name": "[parameters('domainToJoin')]",
-            "OUPath": "[parameters('domainOUPath')]",
-            "User": "[concat(parameters('domainUserName'), '@', parameters('domainToJoin'))]",
+            "OUPath": "[parameters('domainJoinOUPath')]",
+            "User": "[concat(parameters('domainJoinUserName'), '@', parameters('domainToJoin'))]",
             "Restart": "true",
             "Options": "[parameters('domainJoinOptions')]"
             },
             "protectedsettings": {
-                "Password": "[parameters('domainPassword')]"
+                "Password": "[parameters('domainJoinPassword')]"
             }
         }
     }
