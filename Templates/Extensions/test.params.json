@@ -1,0 +1,21 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceGroupName": {
+            "value": "Tst-Test"
+        },
+        "resourceGroupLocation": {
+            "value": "WestEurope"
+        },
+        "vmName": {
+            "value": "Tst-Test-01-VM"
+        },
+        "domainJoinOU": {
+            "value": "OU=Computers, OU=LRS, DC=LRS, DC=Development"
+        },
+        "domainToJoin": {
+            "value": "lrs.development"
+        }
+    }
+}
