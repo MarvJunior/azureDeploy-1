@@ -84,8 +84,13 @@
                         }
                     }
                 ]
-
             }
         }
-    ]
+    ],
+    "outputs": {
+        "lbRef": {
+            "type": "object",
+            "value": "[reference(parameters('loadBalancerName'))]"
+        } 
+    }
 }

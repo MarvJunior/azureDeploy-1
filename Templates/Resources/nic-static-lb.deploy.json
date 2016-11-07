@@ -38,21 +38,13 @@
       "metadata": {
         "description": "A reference to an existing subnet"
       }
-    },
-    "lbBackendAddressPoolIDs" :{
-        "type": "array",
-        "defaultValue": [],
+    }, 
+    "lbID": {
+        "type": "object", 
         "metadata": {
-            "description": "Array containing Load Balancer Backend Address Pool ID references"
+            "description": "ID Reference of Load Balancer"
         }
-    },
-    "lbInboundNatRules" : {
-        "type": "array",
-        "defaultValue": [],
-        "metadata": {
-            "description": "Array containing Load Balancer Inbound NAT rule references"
-        }
-    }
+    } 
   },
   "variables": {},
   "resources": [
@@ -71,12 +63,15 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[parameters('subnetRef')]"
-              },
-              "loadBalancerInboundNatRules": "[parameters('lbInboundNatRules')]",
-              "loadBalancerBackendAddressPools": "[parameters('lbBackendAddressPoolIDs')]"
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                    "id": "[parameters('subnetRef')]"
+                },
+                "loadBalancerBackendAddressPools": [
+                    {
+                        "id": "[concat(parameters('lbID'), '/backendAddressPools/BackendPool1')]"
+                    }
+                ]
             }
           }
         ]

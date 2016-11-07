@@ -247,9 +247,7 @@
                 "instanceCount" : {"value": "[parameters('instanceCount')]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value": "[resourceGroup().location]"},
-                "lbBackendAddressPoolIDs": {"value": [
-                    "[concat(resourceId(resourceGroup().name, 'Microsoft.Network/Loadbalancers', concat(variables('lbName'), variables('lbSuffix'))), '/backendAddressPools/BackendPool1')]"
-                ]}
+                "lbId": {"value": "[reference(concat(variables('lbName'),'-LoadBalancer')).outputs.lbref.value]"}
             }
         }
     },
