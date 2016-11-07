@@ -31,13 +31,6 @@
         "metadata": {
             "description" : "Single IP Address for NIC"
         }
-    },
-    "lbBackendAddressPoolIDs" :{
-        "type": "array",
-        "defaultValue": [],
-        "metadata": {
-            "description": "Array containing Load Balancer Backend Address Pool ID references"
-        }
     }
   },
   "variables": {},
@@ -57,8 +50,7 @@
               "privateIPAddress": "[parameters('ipAddress')]",
               "subnet": {
                 "id": "[parameters('subnetRef')]"
-              },
-              "loadBalancerBackendAddressPools": "[parameters('lbBackendAddressPoolIDs')]"
+              }
             }
           }
         ]

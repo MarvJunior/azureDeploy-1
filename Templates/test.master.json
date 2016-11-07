@@ -237,7 +237,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'nic-static.deploy.json')]",
+                "uri": "[concat(parameters('resourceTemplateUri'), 'nic-static-lb.deploy.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
