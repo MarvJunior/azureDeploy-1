@@ -88,9 +88,9 @@
         }
     ],
     "outputs": {
-        "lbRef": {
-            "type": "object",
-            "value": "[reference(parameters('loadBalancerName'))]"
+        "lbIdRef": {
+            "type": "string",
+            "value": "[reference(parameters('loadBalancerName')).id]"
         } 
     }
 }
