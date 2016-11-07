@@ -43,11 +43,7 @@
                 "frontendIPConfigurations": [
                     {
                         "name": "LoadBalancerFrontEnd",
-                        "properties": {
-                            "publicIPAddress": {
-                                "id": "[parameters('publicIPAddressID')]"
-                            }
-                        }
+                        "properties": {}
                     }
                 ],
                 "backendAddressPools": [

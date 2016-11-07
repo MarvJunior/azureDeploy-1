@@ -94,12 +94,6 @@
         "description": "The name of the Subnet where Virtual Machines will be created"
       }
     },
-    "publicIPAddressID":{
-        "type": "string", "defaultValue": null,
-        "metadata": {
-            "description": "Id for PIP to be used on Load Balancer, default is null"
-        }
-    },
     "dataDiskCount": {
         "type": "int",
         "defaultValue": 0,
@@ -203,9 +197,7 @@
           {
             "name": "LoadBalancerFrontEnd",
             "properties": {
-              "publicIPAddress": {
-                "id": "[parameters('publicIPAddressID')]"
-              }
+              "publicIPAddress": {}
             }
           }
         ],
