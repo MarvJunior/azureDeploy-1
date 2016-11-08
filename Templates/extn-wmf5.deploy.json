@@ -24,7 +24,7 @@
       {
         "name": "[concat(parameters('vmName'), '/', 'DscExtension')]",
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "location": "[resourceGroup().location]",
+        "location": "[parameters('resourceGrouplocation')]",
         "apiVersion": "2015-06-15",
         "dependsOn": [
         ],
