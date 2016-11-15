@@ -62,80 +62,71 @@
             "type": "string", 
             "metadata": {"description": "Name of Network Interface for Virtual Machine"}
         },
+        "timeZone": {
+            "type": "string",
+            "defaultValue": "GMT Standard Time",
+            "metadata": {"description": "Timezone for guest operating system"}
+        },
         "dataDiskCount": {
             "type": "int",
             "defaultValue": 0,
             "metadata": {"description": "Number of Data Disks to add to VM - taken from dataDiskArray variable"}
         },
-        "dataDisk1_name": {"type": "string","defaultValue": "disk1"},
-        "dataDisk1_uriSuffix": {"type": "string", "defaultValue": "-disk1.vhd"},
+        "dataDisk1_name": {"type": "string","defaultValue": "dataDisk1"},
+        "dataDisk1_uriSuffix": {"type": "string", "defaultValue": "-dataDisk1.vhd"},
         "dataDisk1_lun": {"type": "int", "defaultValue": 0},
         "dataDisk1_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk1_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk1_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk2_name": {"type": "string","defaultValue": "disk2"},
-        "dataDisk2_uriSuffix": {"type": "string", "defaultValue": "-disk2.vhd"},
+        "dataDisk2_name": {"type": "string","defaultValue": "dataDisk2"},
+        "dataDisk2_uriSuffix": {"type": "string", "defaultValue": "-dataDisk2.vhd"},
         "dataDisk2_lun": {"type": "int", "defaultValue": 1},
         "dataDisk2_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk2_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk2_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk3_name": {"type": "string","defaultValue": "disk3"},
-        "dataDisk3_uriSuffix": {"type": "string", "defaultValue": "-disk3.vhd"},
+        "dataDisk3_name": {"type": "string","defaultValue": "dataDisk3"},
+        "dataDisk3_uriSuffix": {"type": "string", "defaultValue": "-dataDisk3.vhd"},
         "dataDisk3_lun": {"type": "int", "defaultValue": 2},
         "dataDisk3_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk3_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk3_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk4_name": {"type": "string","defaultValue": "disk4"},
-        "dataDisk4_uriSuffix": {"type": "string", "defaultValue": "-disk4.vhd"},
+        "dataDisk4_name": {"type": "string","defaultValue": "dataDisk4"},
+        "dataDisk4_uriSuffix": {"type": "string", "defaultValue": "-dataDisk4.vhd"},
         "dataDisk4_lun": {"type": "int", "defaultValue": 3},
         "dataDisk4_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk4_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk4_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk5_name": {"type": "string","defaultValue": "disk5"},
-        "dataDisk5_uriSuffix": {"type": "string", "defaultValue": "-disk5.vhd"},
+        "dataDisk5_name": {"type": "string","defaultValue": "dataDisk5"},
+        "dataDisk5_uriSuffix": {"type": "string", "defaultValue": "-dataDisk5.vhd"},
         "dataDisk5_lun": {"type": "int", "defaultValue": 4},
         "dataDisk5_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk5_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk5_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk6_name": {"type": "string","defaultValue": "disk6"},
-        "dataDisk6_uriSuffix": {"type": "string", "defaultValue": "-disk6.vhd"},
+        "dataDisk6_name": {"type": "string","defaultValue": "dataDisk6"},
+        "dataDisk6_uriSuffix": {"type": "string", "defaultValue": "-dataDisk6.vhd"},
         "dataDisk6_lun": {"type": "int", "defaultValue": 5},
         "dataDisk6_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk6_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk6_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk7_name": {"type": "string","defaultValue": "disk7"},
-        "dataDisk7_uriSuffix": {"type": "string", "defaultValue": "-disk7.vhd"},
+        "dataDisk7_name": {"type": "string","defaultValue": "dataDisk7"},
+        "dataDisk7_uriSuffix": {"type": "string", "defaultValue": "-dataDisk7.vhd"},
         "dataDisk7_lun": {"type": "int", "defaultValue": 6},
         "dataDisk7_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk7_caching": {"type": "string", "defaultValue": "ReadWrite"},
         "dataDisk7_diskSizeGB": {"type": "int", "defaultValue": 127},
 
-        "dataDisk8_name": {"type": "string","defaultValue": "disk8"},
-        "dataDisk8_uriSuffix": {"type": "string", "defaultValue": "-disk8.vhd"},
+        "dataDisk8_name": {"type": "string","defaultValue": "dataDisk8"},
+        "dataDisk8_uriSuffix": {"type": "string", "defaultValue": "-dataDisk8.vhd"},
         "dataDisk8_lun": {"type": "int", "defaultValue": 7},
         "dataDisk8_createOption": {"type": "string", "defaultValue": "Empty"},
         "dataDisk8_caching": {"type": "string", "defaultValue": "ReadWrite"},
-        "dataDisk8_diskSizeGB": {"type": "int", "defaultValue": 127},
-
-        "dataDisk9_name": {"type": "string","defaultValue": "disk9"},
-        "dataDisk9_uriSuffix": {"type": "string", "defaultValue": "-disk9.vhd"},
-        "dataDisk9_lun": {"type": "int", "defaultValue": 8},
-        "dataDisk9_createOption": {"type": "string", "defaultValue": "Empty"},
-        "dataDisk9_caching": {"type": "string", "defaultValue": "ReadWrite"},
-        "dataDisk9_diskSizeGB": {"type": "int", "defaultValue": 127},
-
-        "dataDisk10_name": {"type": "string","defaultValue": "disk10"},
-        "dataDisk10_uriSuffix": {"type": "string", "defaultValue": "-disk10.vhd"},
-        "dataDisk10_lun": {"type": "int", "defaultValue": 9},
-        "dataDisk10_createOption": {"type": "string", "defaultValue": "Empty"},
-        "dataDisk10_caching": {"type": "string", "defaultValue": "ReadWrite"},
-        "dataDisk10_diskSizeGB": {"type": "int", "defaultValue": 127}
+        "dataDisk8_diskSizeGB": {"type": "int", "defaultValue": 127}
     },
     "variables": {
         "vhdStoragePath" : "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]",
@@ -169,6 +160,56 @@
                 "createOption": "[parameters('dataDisk3_createOption')]",
                 "caching": "[parameters('dataDisk3_caching')]",
                 "diskSizeGB": "[parameters('dataDisk3_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk4_name')]",
+                "lun": "[parameters('dataDisk4_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk4_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk4_createOption')]",
+                "caching": "[parameters('dataDisk4_caching')]",
+                "diskSizeGB": "[parameters('dataDisk4_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk5_name')]",
+                "lun": "[parameters('dataDisk5_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk5_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk5_createOption')]",
+                "caching": "[parameters('dataDisk5_caching')]",
+                "diskSizeGB": "[parameters('dataDisk5_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk6_name')]",
+                "lun": "[parameters('dataDisk6_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk6_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk6_createOption')]",
+                "caching": "[parameters('dataDisk6_caching')]",
+                "diskSizeGB": "[parameters('dataDisk6_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk7_name')]",
+                "lun": "[parameters('dataDisk7_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk7_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk7_createOption')]",
+                "caching": "[parameters('dataDisk7_caching')]",
+                "diskSizeGB": "[parameters('dataDisk7_diskSizeGB')]"
+            },
+            {
+                "name": "[parameters('dataDisk8_name')]",
+                "lun": "[parameters('dataDisk8_lun')]",
+                "vhd": {
+                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk8_uriSuffix'))]"
+                },
+                "createOption": "[parameters('dataDisk8_createOption')]",
+                "caching": "[parameters('dataDisk8_caching')]",
+                "diskSizeGB": "[parameters('dataDisk8_diskSizeGB')]"
             }
         ]
     },
@@ -189,7 +230,11 @@
                 "osProfile": {
                     "computerName": "[parameters('osName')]",
                     "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]"
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "timeZone": "[parameters('timeZone')]"
+                    }
+                    
                 },
                 "storageProfile": {
                 "imageReference": {
