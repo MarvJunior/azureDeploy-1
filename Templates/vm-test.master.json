@@ -67,9 +67,25 @@
         "description": "Number of Virtual Machines to create"
       }
     },
-    "storageAccountType": {
+    "standardStorageAccountType": {
       "type": "string",
       "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Standard_ZRS"        
+      ],
+      "metadata": {
+        "description": "Storage Account Type for Virtual Machines"
+      }
+    },
+    "premiumStorageAccountType": {
+      "type": "string",
+      "defaultValue": "Premium_LRS",
+      "allowedValues": [
+        "Premium_LRS"  
+      ],
       "metadata": {
         "description": "Storage Account Type for Virtual Machines"
       }
@@ -136,7 +152,7 @@
             },
             "parameters": {
                 "storageAccountType": {"value":"Standard_LRS"},
-                "storageAccountName": {"value":"[variables('storageAccountName')]"},
+                "storageAccountName": {"value":"[concat('standard',variables('storageAccountName'))]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
             }
@@ -228,6 +244,8 @@
                 "imageSKU": {"value": "[parameters('imageSKU')]"},
                 "vmSize": {"value": "[parameters('vmSize')]"},
                 "storageAccountName": {"value": "[variables('storageAccountName')]"},
+                "standardStorageAccountPath": {"value": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]"},
+                "premiumStorageAccountPath": {},
                 "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
                 "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
                 "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
