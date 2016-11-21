@@ -151,7 +151,7 @@
             },
             "parameters": {
                 "storageAccountType": {"value":"[parameters('standardStorageAccountType')]"},
-                "storageAccountName": {"value":"[concat('standard',variables('standardStorageAccountName'))]"},
+                "storageAccountName": {"value":"[variables('standardStorageAccountName')]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
             }
@@ -169,7 +169,7 @@
             },
             "parameters": {
                 "storageAccountType": {"value":"[parameters('premiumStorageAccountType')]"},
-                "storageAccountName": {"value":"[concat('premium',variables('premiumStorageAccountName'))]"},
+                "storageAccountName": {"value":"[variables('premiumStorageAccountName')]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
             }

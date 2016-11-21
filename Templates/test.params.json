@@ -3,16 +3,16 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "resourceTemplateUri": {
-            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/"
+            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/vm-ssd-dev/Templates/"
         },
-        "vNetResourceGroup": {"value": "LRS-Network"},    
-        "vNetName": {"value": "LRS-VirtualNetwork"},    
+        "vNetResourceGroup": {"value": "Tst-vNet"},    
+        "vNetName": {"value": "Tst-vNet"},    
 
-        "resourcePrefix": {"value": "LRS-DACD"},  
-        "subnetName": {"value": "LRS-Database"},
+        "resourcePrefix": {"value": "Tst-SSD"},  
+        "subnetName": {"value": "Tst-Test"},
 
         "adminUsername": {"value": "Test"},
-        "adminPassword": {"value": [local password]},
+        "adminPassword": {"value": "Test!234"},
 
         "vmSize": {"value": "Standard_DS2"},
         "instanceCount": {"value": 2},
