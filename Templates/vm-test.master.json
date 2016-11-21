@@ -151,7 +151,7 @@
                 "contentVersion": "1.0.0.0"            
             },
             "parameters": {
-                "storageAccountType": {"value":"Standard_LRS"},
+                "storageAccountType": {"value":"[parameters('standardStorageAccountType')]"},
                 "storageAccountName": {"value":"[concat('standard',variables('storageAccountName'))]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
@@ -169,7 +169,7 @@
                 "contentVersion": "1.0.0.0"            
             },
             "parameters": {
-                "storageAccountType": {"value":"Premium_LRS"},
+                "storageAccountType": {"value":"[parameters('premiumStorageAccountType')]"},
                 "storageAccountName": {"value":"[concat('premium',variables('storageAccountName'))]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
