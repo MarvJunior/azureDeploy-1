@@ -11,8 +11,7 @@
         "resourcePrefix": {"value": "Tst-SSD"},  
         "subnetName": {"value": "Tst-Test"},
 
-        "adminUsername": {"value": "Test"},
-        "adminPassword": {"value": "Test!234"},
+        "adminUsername": {"value": "868686"},
 
         "vmSize": {"value": "Standard_DS2"},
         "instanceCount": {"value": 2},
@@ -23,9 +22,9 @@
         "dataDisk1_diskSizeGB": {"value": 1023},
         "dataDisk1_storageType": {"value": "Standard"},
         
-        "datadisk2_name": {"value": "DBData"},
-        "datadisk2_uriSuffix": {"value": "-DBData.vhd"},
-        "datadisk2_diskSizeGB": {"value": 1023},
+        "dataDisk2_name": {"value": "DBData"},
+        "dataDisk2_uriSuffix": {"value": "-DBData.vhd"},
+        "dataDisk2_diskSizeGB": {"value": 512},
         "dataDisk2_storageType": {"value": "Premium"}
     }
 }

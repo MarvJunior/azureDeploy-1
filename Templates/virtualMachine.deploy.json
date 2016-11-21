@@ -42,10 +42,6 @@
             "defaultValue": "Standard_A1",
             "metadata": {"description": "Size of the virtual machine, must be available in the virtual machine's location"}
         },
-        "storageAccountName": {
-            "type": "string",
-            "metadata": {"description": "Name of Storage Account for Virtual Machine disks"}
-        },
         "standardStoragePath" : {
             "type": "string",
             "metadata": {"description": "Name of Standard Storage Account for Virtual Machine disks"}            
@@ -145,13 +141,12 @@
         "dataDisk8_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]}
     },
     "variables": {
-        "vhdStoragePath" : "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]",
         "dataDiskArray": [
             {
                 "name": "[parameters('dataDisk1_name')]",
                 "lun": "[parameters('dataDisk1_lun')]",
                 "vhd": {
-                    "uri": "[concat(parameters(concat(parameters('dataDisk1_storageType'), 'storagePath')),parameters('vmName'),parameters('dataDisk1_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk1_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk1_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk1_createOption')]",
                 "caching": "[parameters('dataDisk1_caching')]",
@@ -161,7 +156,7 @@
                 "name": "[parameters('dataDisk2_name')]",
                 "lun": "[parameters('dataDisk2_lun')]",
                 "vhd": {
-                    "uri": "[concat(parameters(concat(parameters('dataDisk2_storageType'), 'storagePath')),parameters('vmName'),parameters('dataDisk2_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk2_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk2_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk2_createOption')]",
                 "caching": "[parameters('dataDisk2_caching')]",
@@ -171,7 +166,7 @@
                 "name": "[parameters('dataDisk3_name')]",
                 "lun": "[parameters('dataDisk3_lun')]",
                 "vhd": {
-                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk3_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk3_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk3_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk3_createOption')]",
                 "caching": "[parameters('dataDisk3_caching')]",
@@ -181,7 +176,7 @@
                 "name": "[parameters('dataDisk4_name')]",
                 "lun": "[parameters('dataDisk4_lun')]",
                 "vhd": {
-                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk4_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk4_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk4_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk4_createOption')]",
                 "caching": "[parameters('dataDisk4_caching')]",
@@ -191,7 +186,7 @@
                 "name": "[parameters('dataDisk5_name')]",
                 "lun": "[parameters('dataDisk5_lun')]",
                 "vhd": {
-                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk5_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk5_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk5_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk5_createOption')]",
                 "caching": "[parameters('dataDisk5_caching')]",
@@ -201,7 +196,7 @@
                 "name": "[parameters('dataDisk6_name')]",
                 "lun": "[parameters('dataDisk6_lun')]",
                 "vhd": {
-                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk6_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk6_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk6_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk6_createOption')]",
                 "caching": "[parameters('dataDisk6_caching')]",
@@ -211,7 +206,7 @@
                 "name": "[parameters('dataDisk7_name')]",
                 "lun": "[parameters('dataDisk7_lun')]",
                 "vhd": {
-                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk7_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk7_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk7_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk7_createOption')]",
                 "caching": "[parameters('dataDisk7_caching')]",
@@ -221,7 +216,7 @@
                 "name": "[parameters('dataDisk8_name')]",
                 "lun": "[parameters('dataDisk8_lun')]",
                 "vhd": {
-                    "uri": "[concat(variables('vhdStoragePath'), parameters('vmName'),parameters('dataDisk8_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk8_storageType'),'/vhds/', 'storagePath')),parameters('vmName'),parameters('dataDisk8_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk8_createOption')]",
                 "caching": "[parameters('dataDisk8_caching')]",
@@ -262,7 +257,7 @@
                 "osDisk": {
                     "name": "osdisk",
                     "vhd": {
-                        "uri": "[concat(variables('vhdStoragePath'),parameters('vmName'), '-osdisk.vhd')]"
+                        "uri": "[concat(parameters('standardStoragePath'),'/vhds/',parameters('vmName'), '-osdisk.vhd')]"
                     },
                     "caching": "ReadWrite",
                     "createOption": "FromImage"
@@ -279,7 +274,7 @@
                     "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": "true",
-                        "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+                        "storageUri": "[concat(parameters('standardStoragePath'),'/diagnostics/')]"
                     }
                 }
             }
