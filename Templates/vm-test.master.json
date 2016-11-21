@@ -131,7 +131,6 @@
     "dataDisk2_storageType": {"type": "string", "defaultValue": "Standard_LRS"}
   },
   "variables": {
-    "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "standardStorageAccountName": "[concat('standard',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "premiumStorageAccountName": "[concat('premium',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "availabilitySetName": "[concat(parameters('resourcePrefix'),'-AS')]",
@@ -244,7 +243,6 @@
                 "imageOffer": {"value": "[parameters('imageOffer')]"},
                 "imageSKU": {"value": "[parameters('imageSKU')]"},
                 "vmSize": {"value": "[parameters('vmSize')]"},
-                "storageAccountName": {"value": "[variables('storageAccountName')]"},
                 "standardStoragePath": {"value": "[concat('http://',variables('standardStorageAccountName'),'.blob.core.windows.net')]"},
                 "premiumStoragePath": {"value": "[concat('http://',variables('premiumStorageAccountName'),'.blob.core.windows.net')]"},
                 "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
