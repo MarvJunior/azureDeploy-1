@@ -161,7 +161,7 @@
                 "name": "[parameters('dataDisk2_name')]",
                 "lun": "[parameters('dataDisk2_lun')]",
                 "vhd": {
-                    "uri": "[concat(parameters(concat(parameters('dataDisk2_storageType'), 'storagePath')),parameters('vmName'),parameters('dataDisk1_uriSuffix'))]"
+                    "uri": "[concat(parameters(concat(parameters('dataDisk2_storageType'), 'storagePath')),parameters('vmName'),parameters('dataDisk2_uriSuffix'))]"
                 },
                 "createOption": "[parameters('dataDisk2_createOption')]",
                 "caching": "[parameters('dataDisk2_caching')]",
