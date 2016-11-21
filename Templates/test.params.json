@@ -1,0 +1,31 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceTemplateUri": {
+            "value" : "https://raw.githubusercontent.com/MarvTheRobot/azureDeploy/master/Templates/"
+        },
+        "vNetResourceGroup": {"value": "LRS-Network"},    
+        "vNetName": {"value": "LRS-VirtualNetwork"},    
+
+        "resourcePrefix": {"value": "LRS-DACD"},  
+        "subnetName": {"value": "LRS-Database"},
+
+        "adminUsername": {"value": "Test"},
+        "adminPassword": {"value": [local password]},
+
+        "vmSize": {"value": "Standard_DS2"},
+        "instanceCount": {"value": 2},
+        "dataDiskCount": {"value": 2},
+
+        "dataDisk1_name": {"value": "ApplicationData"},
+        "dataDisk1_uriSuffix": {"value": "-ApplicationData.vhd"},
+        "dataDisk1_diskSizeGB": {"value": 1023},
+        "dataDisk1_storageType": {"value": "Standard"},
+        
+        "datadisk2_name": {"value": "DBData"},
+        "datadisk2_uriSuffix": {"value": "-DBData.vhd"},
+        "datadisk2_diskSizeGB": {"value": 1023},
+        "dataDisk2_storageType": {"value": "Premium"}
+    }
+}
