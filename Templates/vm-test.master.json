@@ -207,7 +207,8 @@
             "count": "[parameters('instanceCount')]"
         },
         "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StorageAccount')]", 
+            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StandardStorageAccount')]",
+            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-PremiumStorageAccount')]", 
             "[concat('Microsoft.Resources/deployments/',variables('availabilitySetName'),'-AvailabilitySet')]", 
             "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]"             
         ],
@@ -239,39 +240,17 @@
                 "dataDisk1_createOption": {"value": "[parameters('dataDisk1_createOption')]"},
                 "dataDisk1_caching": {"value": "[parameters('dataDisk1_caching')]"},
                 "dataDisk1_diskSizeGB": {"value": "[parameters('dataDisk1_diskSizeGB')]"},
+                "dataDisk1_storageType": {"value": "[parameters('dataDisk1_storageType')]"},
 
                 "datadisk2_name": {"value": "[parameters('datadisk2_name')]"},
                 "datadisk2_uriSuffix": {"value": "[parameters('datadisk2_uriSuffix')]"},
                 "datadisk2_lun": {"value": "[parameters('datadisk2_lun')]"},
                 "datadisk2_createOption": {"value": "[parameters('datadisk2_createOption')]"},
                 "datadisk2_caching": {"value": "[parameters('datadisk2_caching')]"},
-                "datadisk2_diskSizeGB": {"value": "[parameters('datadisk2_diskSizeGB')]"}
+                "datadisk2_diskSizeGB": {"value": "[parameters('datadisk2_diskSizeGB')]"},
+                "dataDisk2_diskSizeGB": {"value": "[parameters('dataDisk2_storageType')]"}
             }
         }
-    },
-    {
-        "type": "Microsoft.Resources/deployments",
-        "name": "[concat(parameters('resourcePrefix'),'-',padLeft(copyIndex(1),2,'0'),'-wmfExtn')]",
-        "apiVersion": "2015-01-01",
-        "copy": {
-            "name": "extnCopy",
-            "count": "[parameters('instanceCount')]"
-        },
-        "dependsOn": [
-            "[concat(parameters('resourcePrefix'),'-',padLeft(copyIndex(1),2,'0'),'-virtualMachine')]"             
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(parameters('resourceTemplateUri'), 'extn-wmf5.deploy.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
-                "resourceGroupName": {"value": "[resourceGroup().name]"},
-                "resourceGroupLocation": {"value": "[resourceGroup().location]"},
-                "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"}
-            }
-        }      
     }
   ]
 }
