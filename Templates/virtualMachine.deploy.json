@@ -274,7 +274,7 @@
                     "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": "true",
-                        "storageUri": "[concat(parameters('standardStoragePath'),'/diagnostics/')]"
+                        "storageUri": "[parameters('standardStoragePath')]"
                     }
                 }
             }
