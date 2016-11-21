@@ -17,6 +17,7 @@
     },
     "adminPassword": {
       "type": "securestring",
+      "defaultValue": "[concat('Admin!234',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
       "metadata": {
         "description": "Admin password"
       }
@@ -121,15 +122,16 @@
     "dataDisk1_diskSizeGB": {"type": "int", "defaultValue": 127},
     "dataDisk1_storageType": {"type": "string", "defaultValue": "Standard_LRS"},
 
-    "datadisk2_name": {"type": "string","defaultValue": "dataDisk2"},
-    "datadisk2_uriSuffix": {"type": "string", "defaultValue": "-dataDisk2.vhd"},
-    "datadisk2_lun": {"type": "int", "defaultValue": 1},
-    "datadisk2_createOption": {"type": "string", "defaultValue": "Empty"},
-    "datadisk2_caching": {"type": "string", "defaultValue": "ReadWrite"},
-    "datadisk2_diskSizeGB": {"type": "int", "defaultValue": 127},
+    "dataDisk2_name": {"type": "string","defaultValue": "dataDisk2"},
+    "dataDisk2_uriSuffix": {"type": "string", "defaultValue": "-dataDisk2.vhd"},
+    "dataDisk2_lun": {"type": "int", "defaultValue": 1},
+    "dataDisk2_createOption": {"type": "string", "defaultValue": "Empty"},
+    "dataDisk2_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "dataDisk2_diskSizeGB": {"type": "int", "defaultValue": 127},
     "dataDisk2_storageType": {"type": "string", "defaultValue": "Standard_LRS"}
   },
   "variables": {
+    "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "standardStorageAccountName": "[concat('standard',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "premiumStorageAccountName": "[concat('premium',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "availabilitySetName": "[concat(parameters('resourcePrefix'),'-AS')]",
@@ -242,6 +244,7 @@
                 "imageOffer": {"value": "[parameters('imageOffer')]"},
                 "imageSKU": {"value": "[parameters('imageSKU')]"},
                 "vmSize": {"value": "[parameters('vmSize')]"},
+                "storageAccountName": {"value": "[variables('storageAccountName')]"},
                 "standardStoragePath": {"value": "[concat('http://',variables('standardStorageAccountName'),'.blob.core.windows.net/vhds/')]"},
                 "premiumStoragePath": {"value": "[concat('http://',variables('premiumStorageAccountName'),'.blob.core.windows.net/vhds/')]"},
                 "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
@@ -258,15 +261,21 @@
                 "dataDisk1_diskSizeGB": {"value": "[parameters('dataDisk1_diskSizeGB')]"},
                 "dataDisk1_storageType": {"value": "[parameters('dataDisk1_storageType')]"},
 
-                "datadisk2_name": {"value": "[parameters('datadisk2_name')]"},
-                "datadisk2_uriSuffix": {"value": "[parameters('datadisk2_uriSuffix')]"},
-                "datadisk2_lun": {"value": "[parameters('datadisk2_lun')]"},
-                "datadisk2_createOption": {"value": "[parameters('datadisk2_createOption')]"},
-                "datadisk2_caching": {"value": "[parameters('datadisk2_caching')]"},
-                "datadisk2_diskSizeGB": {"value": "[parameters('datadisk2_diskSizeGB')]"},
-                "dataDisk2_diskSizeGB": {"value": "[parameters('dataDisk2_storageType')]"}
+                "dataDisk2_name": {"value": "[parameters('dataDisk2_name')]"},
+                "dataDisk2_uriSuffix": {"value": "[parameters('dataDisk2_uriSuffix')]"},
+                "dataDisk2_lun": {"value": "[parameters('dataDisk2_lun')]"},
+                "dataDisk2_createOption": {"value": "[parameters('dataDisk2_createOption')]"},
+                "dataDisk2_caching": {"value": "[parameters('dataDisk2_caching')]"},
+                "dataDisk2_diskSizeGB": {"value": "[parameters('dataDisk2_diskSizeGB')]"},
+                "dataDisk2_storageType": {"value": "[parameters('dataDisk2_storageType')]"}
             }
         }
     }
-  ]
+  ],
+    "outputs": {
+        "AdminPassword": {
+            "type": "string",
+            "value": "[parameters('adminPassword')]"
+        }
+    }
 }
