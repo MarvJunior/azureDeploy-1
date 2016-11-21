@@ -132,7 +132,8 @@
     "dataDisk2_storageType": {"type": "string", "defaultValue": "Standard_LRS"}
   },
   "variables": {
-    "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
+    "standardStorageAccountName": "[concat('standard',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
+    "premiumStorageAccountName": "[concat('premium',toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
     "availabilitySetName": "[concat(parameters('resourcePrefix'),'-AS')]",
     "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
@@ -142,7 +143,7 @@
   "resources": [
     {
         "type": "Microsoft.Resources/deployments",
-        "name": "[concat(variables('storageAccountName'),'-StandardStorageAccount')]",
+        "name": "StandardStorageAccount",
         "apiVersion": "2015-01-01",
         "properties": {
             "mode": "Incremental",
@@ -152,7 +153,7 @@
             },
             "parameters": {
                 "storageAccountType": {"value":"[parameters('standardStorageAccountType')]"},
-                "storageAccountName": {"value":"[concat('standard',variables('storageAccountName'))]"},
+                "storageAccountName": {"value":"[concat('standard',variables('standardStorageAccountName'))]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
             }
@@ -160,7 +161,7 @@
     },
     {
         "type": "Microsoft.Resources/deployments",
-        "name": "[concat(variables('storageAccountName'),'-PremiumStorageAccount')]",
+        "name": "PremiumStorageAccount",
         "apiVersion": "2015-01-01",
         "properties": {
             "mode": "Incremental",
@@ -170,7 +171,7 @@
             },
             "parameters": {
                 "storageAccountType": {"value":"[parameters('premiumStorageAccountType')]"},
-                "storageAccountName": {"value":"[concat('premium',variables('storageAccountName'))]"},
+                "storageAccountName": {"value":"[concat('premium',variables('premiumStorageAccountName'))]"},
                 "resourceGroupName": {"value":"[resourceGroup().name]"},
                 "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
             }
@@ -223,8 +224,8 @@
             "count": "[parameters('instanceCount')]"
         },
         "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StandardStorageAccount')]",
-            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-PremiumStorageAccount')]", 
+            "[concat('Microsoft.Resources/deployments/','StandardStorageAccount')]",
+            "[concat('Microsoft.Resources/deployments/','PremiumStorageAccount')]", 
             "[concat('Microsoft.Resources/deployments/',variables('availabilitySetName'),'-AvailabilitySet')]", 
             "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]"             
         ],
@@ -243,9 +244,8 @@
                 "imageOffer": {"value": "[parameters('imageOffer')]"},
                 "imageSKU": {"value": "[parameters('imageSKU')]"},
                 "vmSize": {"value": "[parameters('vmSize')]"},
-                "storageAccountName": {"value": "[variables('storageAccountName')]"},
-                "standardStorageAccountPath": {"value": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/')]"},
-                "premiumStorageAccountPath": {},
+                "standardStorageAccountPath": {"value": "[concat('http://',variables('standardStorageAccountName'),'.blob.core.windows.net/vhds/')]"},
+                "premiumStorageAccountPath": {"value": "[concat('http://',variables('premiumStorageAccountName'),'.blob.core.windows.net/vhds/')]"},
                 "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
                 "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
                 "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
