@@ -1,0 +1,277 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceTemplateUri" : {
+      "type": "string",
+      "minLength": 14,
+      "metadata": {
+        "description" : "The URI hosting nested templates, for linked deployments"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password"
+      }
+    },
+    "resourcePrefix": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Prefix to use for resource names"
+      }
+    },
+    "imagePublisher": {
+      "type": "string",
+      "defaultValue": "MicrosoftWindowsServer",
+      "metadata": {
+        "description": "Image Publisher"
+      }
+    },
+    "imageOffer": {
+      "type": "string",
+      "defaultValue": "WindowsServer",
+      "metadata": {
+        "description": "Image Offer"
+      }
+    },
+    "imageSKU": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2012-R2-Datacenter"
+      ],
+      "metadata": {
+        "description": "Image SKU"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "Standard_A1",
+      "metadata": {
+        "description": "Size of the virtual machine, must be available in the virtual machine's location"
+      }
+    },
+    "instanceCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "metadata": {
+        "description": "Number of Virtual Machines to create"
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "metadata": {
+        "description": "Storage Account Type for Virtual Machines"
+      }
+    },
+    "vNetResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of Resource Group containing Virtual Network"
+      }
+    },
+    "vnetName": {
+      "type": "string",
+      "defaultValue": "myVNET",
+      "metadata": {
+        "description": "vNet name"
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "SubnetDefault",
+      "metadata": {
+        "description": "The name of the Subnet where Virtual Machines will be created"
+      }
+    },
+    "dataDiskCount": {
+        "type": "int",
+        "defaultValue": 1,
+        "metadata": {"description": "Number of Data Disks to add to VM - taken from DataDiskArray variable"}
+    },
+    "dataDisk1_name": {"type": "string","defaultValue": "dataDisk1"},
+    "dataDisk1_uriSuffix": {"type": "string", "defaultValue": "-dataDisk1.vhd"},
+    "dataDisk1_lun": {"type": "int", "defaultValue": 0},
+    "dataDisk1_createOption": {"type": "string", "defaultValue": "Empty"},
+    "dataDisk1_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "dataDisk1_diskSizeGB": {"type": "int", "defaultValue": 127},
+    "dataDisk1_storageType": {"type": "string", "defaultValue": "Standard_LRS"},
+
+    "datadisk2_name": {"type": "string","defaultValue": "dataDisk2"},
+    "datadisk2_uriSuffix": {"type": "string", "defaultValue": "-dataDisk2.vhd"},
+    "datadisk2_lun": {"type": "int", "defaultValue": 1},
+    "datadisk2_createOption": {"type": "string", "defaultValue": "Empty"},
+    "datadisk2_caching": {"type": "string", "defaultValue": "ReadWrite"},
+    "datadisk2_diskSizeGB": {"type": "int", "defaultValue": 127},
+    "dataDisk2_storageType": {"type": "string", "defaultValue": "Standard_LRS"}
+  },
+  "variables": {
+    "storageAccountName": "[concat(toLower(replace(uniqueString(resourceGroup().id),'-','')))]",
+    "availabilitySetName": "[concat(parameters('resourcePrefix'),'-AS')]",
+    "vNetID" : "[resourceId(parameters('vNetResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
+    "nicName" : "[parameters('resourcePrefix')]",
+    "vmName": "[parameters('resourcePrefix')]"
+  },
+  "resources": [
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(variables('storageAccountName'),'-StandardStorageAccount')]",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'storageAccount.deploy.json')]",
+                "contentVersion": "1.0.0.0"            
+            },
+            "parameters": {
+                "storageAccountType": {"value":"Standard_LRS"},
+                "storageAccountName": {"value":"[variables('storageAccountName')]"},
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
+            }
+        }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(variables('storageAccountName'),'-PremiumStorageAccount')]",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'storageAccount.deploy.json')]",
+                "contentVersion": "1.0.0.0"            
+            },
+            "parameters": {
+                "storageAccountType": {"value":"Premium_LRS"},
+                "storageAccountName": {"value":"[concat('premium',variables('storageAccountName'))]"},
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value":"[resourceGroup().location]"}          
+            }
+        }
+    },    
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(variables('availabilitySetName'),'-AvailabilitySet')]",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'availabilitySet.deploy.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "availabilitySetName": {"value": "[variables('availabilitySetName')]"},
+                "resourceGroupName": {"value":"[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"}   
+            }
+        }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(parameters('resourcePrefix'),'-staticNetworkInterfaces')]",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'nic-static.deploy.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+            "resourceTemplateUri" : {"value":"[parameters('resourceTemplateUri')]"},
+            "subnetRef": {"value": "[variables('subnetRef')]"},
+            "nicName": {"value": "[concat(variables('nicName'))]"},
+            "instanceCount" : {"value": "[parameters('instanceCount')]"},
+            "resourceGroupName": {"value":"[resourceGroup().name]"},
+            "resourceGroupLocation": {"value": "[resourceGroup().location]"}
+            }
+        }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(parameters('resourcePrefix'),'-',padLeft(copyIndex(1),2,'0'),'-virtualMachine')]",
+        "apiVersion": "2015-01-01",
+        "copy": {
+            "name": "vmCopy",
+            "count": "[parameters('instanceCount')]"
+        },
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/',variables('storageAccountName'),'-StorageAccount')]", 
+            "[concat('Microsoft.Resources/deployments/',variables('availabilitySetName'),'-AvailabilitySet')]", 
+            "[concat('Microsoft.Resources/deployments/',parameters('resourcePrefix'), '-staticNetworkInterfaces')]"             
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'virtualMachine.deploy.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "resourceGroupName": {"value": "[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"},
+                "adminUsername": {"value": "[parameters('adminUsername')]"},
+                "adminPassword": {"value": "[parameters('adminPassword')]"},
+                "imagePublisher": {"value":"[parameters('imagePublisher')]"},
+                "imageOffer": {"value": "[parameters('imageOffer')]"},
+                "imageSKU": {"value": "[parameters('imageSKU')]"},
+                "vmSize": {"value": "[parameters('vmSize')]"},
+                "storageAccountName": {"value": "[variables('storageAccountName')]"},
+                "availabilitySetName":{"value": "[variables('availabilitySetName')]"},  
+                "osName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'))]"},                              
+                "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"},
+                "nicName":{"value": "[concat(variables('nicName'),'-', padLeft(copyIndex(1), 2, '0'), '-NIC')]"},
+                "dataDiskCount": {"value": "[parameters('dataDiskCount')]"},
+
+                "dataDisk1_name": {"value": "[parameters('dataDisk1_name')]"},
+                "dataDisk1_uriSuffix": {"value": "[parameters('dataDisk1_uriSuffix')]"},
+                "dataDisk1_lun": {"value": "[parameters('dataDisk1_lun')]"},
+                "dataDisk1_createOption": {"value": "[parameters('dataDisk1_createOption')]"},
+                "dataDisk1_caching": {"value": "[parameters('dataDisk1_caching')]"},
+                "dataDisk1_diskSizeGB": {"value": "[parameters('dataDisk1_diskSizeGB')]"},
+
+                "datadisk2_name": {"value": "[parameters('datadisk2_name')]"},
+                "datadisk2_uriSuffix": {"value": "[parameters('datadisk2_uriSuffix')]"},
+                "datadisk2_lun": {"value": "[parameters('datadisk2_lun')]"},
+                "datadisk2_createOption": {"value": "[parameters('datadisk2_createOption')]"},
+                "datadisk2_caching": {"value": "[parameters('datadisk2_caching')]"},
+                "datadisk2_diskSizeGB": {"value": "[parameters('datadisk2_diskSizeGB')]"}
+            }
+        }
+    },
+    {
+        "type": "Microsoft.Resources/deployments",
+        "name": "[concat(parameters('resourcePrefix'),'-',padLeft(copyIndex(1),2,'0'),'-wmfExtn')]",
+        "apiVersion": "2015-01-01",
+        "copy": {
+            "name": "extnCopy",
+            "count": "[parameters('instanceCount')]"
+        },
+        "dependsOn": [
+            "[concat(parameters('resourcePrefix'),'-',padLeft(copyIndex(1),2,'0'),'-virtualMachine')]"             
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(parameters('resourceTemplateUri'), 'extn-wmf5.deploy.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "resourceGroupName": {"value": "[resourceGroup().name]"},
+                "resourceGroupLocation": {"value": "[resourceGroup().location]"},
+                "vmName": {"value": "[concat(variables('vmName'), '-', padLeft(copyIndex(1), 2, '0'), '-VM')]"}
+            }
+        }      
+    }
+  ]
+}
