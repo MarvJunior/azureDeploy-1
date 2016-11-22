@@ -75,6 +75,8 @@
         "dataDiskCount": {
             "type": "int",
             "defaultValue": 0,
+            "minValue": 0,
+            "maxValue": 8,
             "metadata": {"description": "Number of Data Disks to add to VM - taken from dataDiskArray variable"}
         },
         "dataDisk1_name": {"type": "string","defaultValue": "dataDisk1"},
