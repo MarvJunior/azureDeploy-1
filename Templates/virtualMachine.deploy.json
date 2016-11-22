@@ -48,6 +48,7 @@
         },
         "premiumStoragePath" : {
             "type": "string",
+            "defaultValue": "premium storage path: optional",
             "metadata": {"description": "Name of Premium Storage Account for Virtual Machine disks"}            
         },        
         "vmName": {
@@ -236,7 +237,7 @@
                     "id": "[resourceId(parameters('resourceGroupName'),'Microsoft.Compute/availabilitySets',parameters('availabilitySetName'))]"
                 },
                 "hardwareProfile": {
-                "vmSize": "[parameters('vmSize')]"
+                    "vmSize": "[parameters('vmSize')]"
                 },
                 "osProfile": {
                     "computerName": "[parameters('osName')]",
@@ -244,24 +245,23 @@
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
                         "timeZone": "[parameters('timeZone')]"
-                    }
-                    
+                    }  
                 },
                 "storageProfile": {
-                "imageReference": {
-                    "publisher": "[parameters('imagePublisher')]",
-                    "offer": "[parameters('imageOffer')]",
-                    "sku": "[parameters('imageSKU')]",
-                    "version": "latest"
-                },
-                "osDisk": {
-                    "name": "osdisk",
-                    "vhd": {
-                        "uri": "[concat(parameters('standardStoragePath'),'/vhds/',parameters('vmName'), '-osdisk.vhd')]"
+                    "imageReference": {
+                        "publisher": "[parameters('imagePublisher')]",
+                        "offer": "[parameters('imageOffer')]",
+                        "sku": "[parameters('imageSKU')]",
+                        "version": "latest"
                     },
-                    "caching": "ReadWrite",
-                    "createOption": "FromImage"
-                },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat(parameters('standardStoragePath'),'/vhds/',parameters('vmName'), '-osdisk.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    },
                     "dataDisks": "[take(variables('dataDiskArray'),parameters('dataDiskCount'))]"
                 },
                 "networkProfile": {
