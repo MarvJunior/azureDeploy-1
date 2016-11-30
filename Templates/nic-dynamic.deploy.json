@@ -19,6 +19,13 @@
         "description": "Name of Network Interface"
       }
     },
+    "nicSuffix": {
+      "type": "string",
+      "defaultValue": "-nic",
+      "metadata": {
+        "description": "Name of Network Interface"
+      }
+    },    
     "instanceCount": {
       "type" : "int",
       "metadata": {
@@ -39,7 +46,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]",
+      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),parameters('nicSuffix'))]",
       "location": "[parameters('resourceGroupLocation')]",
       "copy": {
         "name" : "nicLoop",

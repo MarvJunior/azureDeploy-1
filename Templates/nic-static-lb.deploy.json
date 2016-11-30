@@ -26,6 +26,13 @@
         "description": "Name of Network Interface"
       }
     },
+    "nicSuffix": {
+      "type": "string",
+      "defaultValue": "-nic",
+      "metadata": {
+        "description": "Suffix of Network Interface"
+      }
+    },    
     "instanceCount": {
       "type" : "int",
       "metadata": {
@@ -51,7 +58,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]",
+      "name": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),parameters('nicSuffix'))]",
       "location": "[parameters('resourceGroupLocation')]",
       "copy": {
         "name" : "nicLoop",
@@ -86,7 +93,7 @@
         "count" : "[parameters('instanceCount')]"
       },      
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')]"
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),parameters('nicSuffix'))]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -96,11 +103,11 @@
         },
         "parameters": {
             "subnetRef": {"value": "[parameters('subnetRef')]"},
-            "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),'-NIC')]"}, 
+            "nicName": {"value": "[concat(parameters('nicName'), '-', padLeft(copyIndex(1), 2, '0'),parameters('nicSuffix'))]"}, 
             "resourceGroupName": {"value": "[parameters('resourceGroupName')]"},             
             "resourceGroupLocation": {"value": "[parameters('resourceGroupLocation')]"},
             "ipAddress" : {
-                "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),'-NIC')).ipConfigurations[0].properties.privateIPAddress]"
+                "value": "[reference(concat('Microsoft.Network/networkInterfaces/', parameters('nicName'), '-', padleft(copyindex(1), 2, '0'),parameters('nicSuffix'))).ipConfigurations[0].properties.privateIPAddress]"
             },
             "lbID": {"value": "[parameters('lbID')]"}     
         }

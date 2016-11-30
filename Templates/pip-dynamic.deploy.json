@@ -19,6 +19,13 @@
         "description": "Prefix to use for resource names"
       }
     },
+    "pipSuffix": {
+      "type": "string",
+      "defaultValue": "-pip",
+      "metadata": {
+        "description": "Suffix to use for resource names"
+      }
+    },
     "publicIPAddressDnsName": {
       "type": "string",
       "defaultValue": "[toLower(concat('pip-',uniqueString(resourceGroup().id)))]",
@@ -32,7 +39,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(parameters('pipName'),'-PIP')]",
+      "name": "[concat(parameters('pipName'),parameters('pipSuffix'))]",
       "location": "[parameters('resourceGroupLocation')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
@@ -45,7 +52,7 @@
   "outputs": {
     "pipRef": {
         "type": "object",
-        "value": "[reference(concat(parameters('pipName'),'-PIP'))]"
+        "value": "[reference(concat(parameters('pipName'),parameters('pipSuffix')))]"
     }
   }
 }
