@@ -86,7 +86,7 @@
         "dataDisk1_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk1_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk1_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk1_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk2_name": {"type": "string","defaultValue": "dataDisk2"},
@@ -96,7 +96,7 @@
         "dataDisk2_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk2_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk2_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk2_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk3_name": {"type": "string","defaultValue": "dataDisk3"},
@@ -106,7 +106,7 @@
         "dataDisk3_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk3_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk3_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk3_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk4_name": {"type": "string","defaultValue": "dataDisk4"},
@@ -116,7 +116,7 @@
         "dataDisk4_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk4_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk4_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk4_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk5_name": {"type": "string","defaultValue": "dataDisk5"},
@@ -126,7 +126,7 @@
         "dataDisk5_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk5_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk5_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk5_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk6_name": {"type": "string","defaultValue": "dataDisk6"},
@@ -136,7 +136,7 @@
         "dataDisk6_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk6_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk6_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk6_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk7_name": {"type": "string","defaultValue": "dataDisk7"},
@@ -146,7 +146,7 @@
         "dataDisk7_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk7_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk7_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk7_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]},
 
         "dataDisk8_name": {"type": "string","defaultValue": "dataDisk8"},
@@ -156,7 +156,7 @@
         "dataDisk8_caching": {"type": "string", "defaultValue": "ReadWrite", "allowedValues": [
             "Read", "ReadWrite","None"
         ]},
-        "dataDisk8_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1024},
+        "dataDisk8_diskSizeGB": {"type": "int", "defaultValue": 20, "minValue": 20,"maxValue": 1023},
         "dataDisk8_storageType": {"type": "string", "defaultValue": "Standard", "allowedValues": ["Standard", "Premium"]}
     },
     "variables": {
