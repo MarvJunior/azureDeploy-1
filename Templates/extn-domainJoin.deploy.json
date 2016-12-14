@@ -8,27 +8,19 @@
     },      
     "resourceGrouplocation": {
       "type": "string",
-      "metadata": {
-        "description": "A reference to a resource location"
-      }
+      "metadata": {"description": "A reference to a resource location"}
     },
     "vmName": {
       "type": "string",
-      "metadata": {
-        "description": "The name of the virtual machine to install the extensionß"
-      }
+      "metadata": {"description": "The name of the virtual machine to install the extension"}
     },
     "domainToJoin": {
         "type": "string",
-        "metadata": {
-            "description": "The NetBIOS name for the Domain"
-        }
+        "metadata": {"description": "The NetBIOS name for the Domain"}
     },
     "domainJoinUserName": {
         "type": "string",
-        "metadata": {
-            "description": "An administrative user account"
-        }
+        "metadata": {"description": "An administrative user account"}
     },
     "domainJoinOptions": {
         "type": "int",
@@ -40,16 +32,12 @@
     "domainJoinPassword": {
       "type": "securestring",
       "defaultValue": "Default value needed for Visual Studio to deploy without asking for username/password which is passed in at runtime",
-      "metadata": {
-        "description": "Secure passord"
-      }
+      "metadata": {"description": "Secure passord"}
     },
     "domainJoinOUPath": {
       "type": "string",
       "defaultValue": "OU=",
-      "metadata": {
-        "description": "CN of OU to Join"
-      }
+      "metadata": {"description": "CN of OU to Join"}
     }
   },
   "variables": {},
